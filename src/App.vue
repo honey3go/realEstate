@@ -1,16 +1,20 @@
 <template>
   <div id="app">
     <nav></nav>
-    <div class="main">
+    <el-row class="main">
+      <el-col :xs="0" :sm="0" :md="0" :lg="1" class="page"></el-col>
+      <el-col :xs="24" :sm="24" :md="24" :lg="22" class="page">
         <el-row class="tac leftBar">
-          <el-col :xs="4" :sm="8" :md="8" :lg="6">
+          <el-col :xs="4" :sm="4" :md="4" :lg="4">
             <leftNav></leftNav>
           </el-col>
-          <el-col :xs="20" :sm="16" :md="16" :lg="18" class="page">
+          <el-col :xs="20" :sm="20" :md="20" :lg="20" class="page">
             <router-view class="page"></router-view>
           </el-col>
         </el-row>
-    </div>
+      </el-col>
+      <el-col :xs="0" :sm="0" :md="0" :lg="1" class="page"></el-col>
+    </el-row>
     <footer></footer>
   </div>
 </template>
@@ -50,6 +54,7 @@ body {
   height: 100%;
 }
 nav {
+  width: 100%;
   height: 10%;
   background-color: rgb(32,160,255);
 }
@@ -59,7 +64,6 @@ footer {
 }
 .main {
   height: 87%;
-  padding: 0 8%;
   background-color: rgb(255,255,255);
 
   .leftBar{

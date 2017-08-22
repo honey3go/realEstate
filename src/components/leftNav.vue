@@ -1,11 +1,11 @@
 <template>
-  <el-menu default-active="2" class="el-menu-vertical-demo" :collapse="isCollapse">
+  <el-menu default-active="2" class="el-menu-vertical-demo" :collapse="isCollapse" router>
     <el-submenu index="1">
       <template slot="title">
         <i class="el-icon-document"></i>
         <span slot="title">模板管理</span>
       </template>
-      <el-menu-item index="1-1">模板管理</el-menu-item>
+      <el-menu-item index="/">模板管理</el-menu-item>
       <el-submenu index="1-5">
         <template slot="title">子导航</template>
         <el-menu-item index="1-3-1">选项3</el-menu-item>

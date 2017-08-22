@@ -15,7 +15,7 @@
     </div>
     <div class="mode-btns">
       <el-button type="primary">查看/打印</el-button>
-      <el-button type="primary" icon="plus">新建</el-button>
+      <el-button type="primary" icon="plus" @click="creatNewMode">新建</el-button>
       <el-button type="primary" icon="edit">修改</el-button>
       <el-button type="primary" icon="delete">删除</el-button>
     </div>
@@ -27,6 +27,7 @@ export default {
   name: 'modeList',
   data () {
     return {
+      result:null,
       isCollapse: false,
       tableData3: [{
           modeName: '模板1',
@@ -94,7 +95,22 @@ export default {
           name: '王小虎',
         }]
     }
-  }
+  },
+  methods:{
+    creatNewMode: function(){
+      this.$router.push('/creatMode')
+    },
+  },
+  created:function(){
+    this.$http.get('http://192.168.1.151:8088/Appapi.asmx/getBuilding')
+      .then(response => {
+        this.result = response.data;
+        console.log(this.result)
+      })
+      .catch(response => {
+        console.log(response)
+    });
+  },
 }
 </script>
 
