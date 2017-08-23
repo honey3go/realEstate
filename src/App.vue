@@ -1,21 +1,21 @@
 <template>
-  <div id="app">
-    <nav></nav>
-    <el-row class="main">
-      <el-col :xs="0" :sm="0" :md="0" :lg="1" class="page"></el-col>
-      <el-col :xs="24" :sm="24" :md="24" :lg="22" class="page">
+  <div id="app" class="print">
+    <nav class="noprint"></nav>
+    <el-row class="main print">
+      <el-col :xs="0" :sm="0" :md="0" :lg="1" class="page noprint"></el-col>
+      <el-col :xs="24" :sm="24" :md="24" :lg="22" class="page print">
         <el-row class="tac leftBar">
-          <el-col :xs="4" :sm="4" :md="4" :lg="4">
+          <el-col :xs="4" :sm="4" :md="4" :lg="4" class="noprint">
             <leftNav></leftNav>
           </el-col>
-          <el-col :xs="20" :sm="20" :md="20" :lg="20" class="page">
-            <router-view class="page"></router-view>
+          <el-col :xs="20" :sm="20" :md="20" :lg="20" class="page print">
+            <router-view class="page print"></router-view>
           </el-col>
         </el-row>
       </el-col>
-      <el-col :xs="0" :sm="0" :md="0" :lg="1" class="page"></el-col>
+      <el-col :xs="0" :sm="0" :md="0" :lg="1" class="page noprint"></el-col>
     </el-row>
-    <footer></footer>
+    <footer class="noprint"></footer>
   </div>
 </template>
 
@@ -36,6 +36,15 @@ export default {
 </script>
 
 <style lang='less'>
+@media print { 
+.noprint { display: none; }
+.print{
+  margin: 0 !important;
+  border: 0 !important;
+  overflow-x:visible !important;
+  overflow-y:visible !important;
+ }
+} 
 @mainGrey:rgb(238,241,246);
 
 html {

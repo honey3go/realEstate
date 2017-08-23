@@ -23,11 +23,12 @@
 </template>
 
 <script>
+import { string2Obj } from '../js/generalMethods.js'
+
 export default {
   name: 'modeList',
   data () {
     return {
-      result:null,
       isCollapse: false,
       tableData3: [{
           modeName: '模板1',
@@ -98,18 +99,8 @@ export default {
   },
   methods:{
     creatNewMode: function(){
-      this.$router.push('/creatMode')
+      this.$router.push('/creatMode');
     },
-  },
-  created:function(){
-    this.$http.get('http://192.168.1.151:8088/Appapi.asmx/getBuilding')
-      .then(response => {
-        this.result = response.data;
-        console.log(this.result)
-      })
-      .catch(response => {
-        console.log(response)
-    });
   },
 }
 </script>
@@ -126,6 +117,10 @@ export default {
     left: 0;
     bottom: 46px; 
     padding: 10px;  
+
+    th{
+      text-align: center;
+    }
   }
   .mode-btns{
     position: absolute;

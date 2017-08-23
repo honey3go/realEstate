@@ -11,7 +11,7 @@ Vue.http.options.emulateJSON = true
 Vue.http.options.emulateHTTP = true
 Vue.config.productionTip = false
 
-
+Vue.http.options.xhr = { withCredentials: true }
 
 
 /* eslint-disable no-new */
@@ -19,4 +19,4 @@ new Vue({
   el: '#app',
   router,
   render: h => h(App)
-})
+}).$mount('#app')

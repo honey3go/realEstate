@@ -1,10 +1,10 @@
 <template>
-  <el-row class="creat-mode" align="flex" justify="start">
-    <el-col :xs="4" :sm="6" :md="6" :lg="6" class="modes" >
+  <el-row class="creat-mode print" align="flex" justify="start">
+    <el-col :xs="4" :sm="6" :md="6" :lg="6" class="modes noprint" >
       <el-tree :data="treeData" :props="defaultProps" node-key="path" ref="tree" highlight-current default-expand-all class="opt-tree" @node-click="getCheckedNodes"></el-tree>
     </el-col>
-    <el-col :xs="20" :sm="18" :md="18" :lg="18" class="main-write">
-      <router-view class="page"></router-view>
+    <el-col :xs="20" :sm="18" :md="18" :lg="18" class="main-write print">
+      <router-view class="page print"></router-view>
     </el-col>
   </el-row>
 </template>
@@ -74,7 +74,7 @@ export default {
     }
   },
   methods: {
-    getCheckedNodes(obj,node,ele) {
+    getCheckedNodes(obj) {
       if (obj.path){
         this.$router.push(`/creatMode/${obj.path}`);
       }
@@ -84,14 +84,15 @@ export default {
 </script>
 
 <style lang='less'>
+
 .creat-mode {
   width: 100%;
   height: 100%;
 
   .modes{
     height: 100%;
-    overflow-x:scroll;
-    overflow-y:scroll;
+    overflow-x: auto;
+    overflow-y: auto;
     .opt-tree{
       border-top: 0;
       border-bottom: 0;
@@ -109,7 +110,7 @@ export default {
 }
 .main-write{
   height: 100%;
-  overflow-x:scroll;
-  overflow-y:scroll;
+  overflow-x: auto;
+  overflow-y: auto;
 }
 </style>
