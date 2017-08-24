@@ -1,52 +1,54 @@
 <template>
   <div id="modelist">
-    <div class="mode-list" v-if = "result">
-      <el-table :data="result" height="100%" max-height="100%" border style="width: 100%;height:100%;">
+    <div class="mode-list" v-if = "userBd">
+      <el-table :data="userBd" height="100%" max-height="100%" border style="width: 100%;height:100%;" @row-click="showPic">
         <el-table-column type="index" width="50"></el-table-column>
-        <el-table-column prop="inc" label="公司名称" width="380"></el-table-column>
         <el-table-column prop="address" label="楼盘地址" width="380"></el-table-column>
-        <el-table-column prop="tnum" label="楼栋数量" ></el-table-column>
+        <el-table-column prop="NUM" label="不动产单元号" width="380"></el-table-column>
+        <el-table-column prop="tnum" label="未登记户数" ></el-table-column>
       </el-table>
+    </div>
+    <div v-else>
+      查询中，请稍等
     </div>
   </div>
 </template>
 
 <script>
 import { string2Obj } from '../js/generalMethods.js'
+import systemParam from '../js/systemParam.js'
 
 export default {
   name: 'query',
+  props:['userBd'],
   data () {
     return {
       isCollapse: false,
-      result: null,
+      house: null,
     }
   },
-  created:function(){
-    this.$http.get('http://localhost:8080/Appapi.asmx/getVillage?developers=辽宁龙田置业有限责任公司')
+  methods:{
+    showPic: function(row){
+      console.log(row.NUM)
+      this.$http.get(`${systemParam.serviceAddress}/${systemParam.getHouse}${row.NUM}`)
       .then(response => {
         let responseObj = string2Obj(response.data);
 
-        if (responseObj!==null){
-          let { code, msg, data} = responseObj;
-
-          if ( code === "200" && data.length > 0) {
-
-            for (let item of data){
-              item.inc = "辽宁龙田置业有限责任公司";
-            }
-            this.result = data;
-          } else {
-            alert("没有对应数据！")
-          };
-        } else {
-          alert("没有对应数据！")
-        };
+        console.log("house")
       })
       .catch(response => {
         console.log(response)
-    });
+      });
+    }
   },
+  created:function(){
+    console.log(this.userBd,"userBd")
+  },
+  watch:{
+    userBd:function(newVal){
+      console.log('23')
+    }
+  }
 }
 </script>
 

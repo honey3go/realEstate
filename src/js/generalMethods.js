@@ -111,4 +111,4 @@ let string2Obj = function(str,startSyb = '{',endSyb = '}'){
     return null;
   };
 }
-export { mouseBtnEv ,string2Obj}
+export { mouseBtnEv ,string2Obj }

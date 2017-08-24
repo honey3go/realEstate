@@ -1,6 +1,8 @@
 <template>
   <div id="app" class="print">
-    <nav class="noprint"></nav>
+    <nav class="noprint">
+      <h4 id="username">{{user}}</h4>
+    </nav>
     <el-row class="main print">
       <el-col :xs="0" :sm="0" :md="0" :lg="1" class="page noprint"></el-col>
       <el-col :xs="24" :sm="24" :md="24" :lg="22" class="page print">
@@ -9,7 +11,7 @@
             <leftNav></leftNav>
           </el-col>
           <el-col :xs="20" :sm="20" :md="20" :lg="20" class="page print">
-            <router-view class="page print"></router-view>
+            <router-view class="page print" :userBd="result"></router-view>
           </el-col>
         </el-row>
       </el-col>
@@ -21,16 +23,46 @@
 
 <script>
 import leftNav from './components/leftNav'
+import systemParam from './js/systemParam.js'
+import { string2Obj } from './js/generalMethods.js'
 
 export default {
   name: 'app',
   data() {
       return {
-        
+        user:"辽宁龙田置业有限责任公司",
+        result: null,
       };
   },
   components:{
     leftNav
+  },
+  created:function(){
+    console.log("created")
+    this.$http.get(`${systemParam.serviceAddress}${systemParam.getBuilding}${this.user}`)
+      .then(response => {
+        let responseObj = string2Obj(response.data);
+        console.log("response")
+        if (responseObj!==null){
+          let { code, msg, data} = responseObj;
+
+          if ( code === "200" && data.length > 0) {
+
+            for (let item of data){
+              item.inc = this.user;
+            }
+            this.result = data;
+            console.log(this.result)
+          } else {
+            alert("没有对应数据！"+code)
+          };
+        } else {
+          alert("网络或服务器错误")
+        };
+      })
+      .catch(response => {
+        console.log(response)
+      });
   }
 }
 </script>
@@ -63,9 +95,19 @@ body {
   height: 100%;
 }
 nav {
+  position: relative;
   width: 100%;
   height: 10%;
   background-color: rgb(32,160,255);
+  color: rgb(255,255,255);
+
+  #username{
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    margin: 0;
+    font-weight: normal;
+  }
 }
 footer {
   height: 3%;
@@ -84,5 +126,4 @@ footer {
     background-color: rgb(250,250,250);
   }
 }
-
 </style>
