@@ -1,7 +1,7 @@
 <template>
   <div id="app" class="print">
     <nav class="noprint">
-      <h4 id="username">{{user}}</h4>
+      <h4 id="username">{{user.name}}</h4>
     </nav>
     <el-row class="main print">
       <el-col :xs="0" :sm="0" :md="0" :lg="1" class="page noprint"></el-col>
@@ -11,7 +11,7 @@
             <leftNav></leftNav>
           </el-col>
           <el-col :xs="20" :sm="20" :md="20" :lg="20" class="page print">
-            <router-view class="page print" :userBd="result"></router-view>
+            <router-view class="page print" :userBd="user"></router-view>
           </el-col>
         </el-row>
       </el-col>
@@ -30,7 +30,7 @@ export default {
   name: 'app',
   data() {
       return {
-        user:"辽宁龙田置业有限责任公司",
+        user:null,
         result: null,
       };
   },
@@ -39,30 +39,7 @@ export default {
   },
   created:function(){
     console.log("created")
-    this.$http.get(`${systemParam.serviceAddress}${systemParam.getBuilding}${this.user}`)
-      .then(response => {
-        let responseObj = string2Obj(response.data);
-        console.log("response")
-        if (responseObj!==null){
-          let { code, msg, data} = responseObj;
-
-          if ( code === "200" && data.length > 0) {
-
-            for (let item of data){
-              item.inc = this.user;
-            }
-            this.result = data;
-            console.log(this.result)
-          } else {
-            alert("没有对应数据！"+code)
-          };
-        } else {
-          alert("网络或服务器错误")
-        };
-      })
-      .catch(response => {
-        console.log(response)
-      });
+    this.user = {name:"辽宁龙田置业有限责任公司"};
   }
 }
 </script>

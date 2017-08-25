@@ -4,7 +4,7 @@ import modeList from '@/components/modeList'
 import creatMode from '@/components/creatMode'
 import writeMode from '@/components/writeMode'
 import query from '@/components/query'
-
+import fourthPage from '@/components/fourthPage'
 Vue.use(Router)
 
 export default new Router({
@@ -23,7 +23,7 @@ export default new Router({
       	{ path: 'p1', },
 		{ path: 'p2', },
 		{ path: 'p3', component: writeMode },
-		{ path: 'p4', },
+		{ path: 'p4', component: fourthPage },
 		{ path: 'p5', },
 		{ path: 'p6', },
 		{ path: 'p7', },
