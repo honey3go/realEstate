@@ -43,6 +43,14 @@ export default {
       optionsD:["现售","预售"]
     }
   },
+  methods:{
+    printPage:function(){
+      window.print();
+    },
+    savePage:function(){
+      console.log("hh")
+    }
+  }
 }
 </script>
 

@@ -29,7 +29,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
         '/Appapi.asmx': {
-            target: 'http://192.168.1.217:89', // 目标域名
+            target: 'http://192.168.1.164:89', // 目标域名
             changeOrigin: true,
             pathRewrite: {
                 '^/Appapi.asmx': '/Appapi.asmx' // 规则, 见下面说明

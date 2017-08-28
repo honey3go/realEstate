@@ -1,13 +1,13 @@
 <template>
   <div id="modelist">
     <div class="mode-list" v-if="house">
-      <el-table :data="house" height="100%" max-height="100%" border style="width: 100%;height:100%;" @row-click="showPic">
+      <el-table :data="house" height="100%" max-height="100%" border style="width: 100%;height:100%;" @expand="showPic">
         <el-table-column type="expand" width="50">
-          <el-form :title="house.NUM">
-            <table class="housePic">
+          <el-form>
+            <table class="housePic" @click="showCon">
               <tr v-for="(item,index) in houseData">
-                <td>{{`${index+1}楼`}}</td>
-                <td v-for="house in item">{{house.change.doorNum}}</td>
+                <td class="floor" disabled>{{`${houseData.length - index}楼`}}</td>
+                <td v-for="(house,num) in item" :class="{'unbook':house.ygbz==1}" :data-tag="index+'-'+num">{{house.change.doorNum}}</td>
               </tr>
             </table>
           </el-form>
@@ -18,7 +18,11 @@
       </el-table>
 
     </div>
-    <div v-else>
+    <div v-else class="loading">
+      <div class="loading-per">
+        <el-progress :text-inside="true" :stroke-width="18" :percentage="70"></el-progress>
+      </div>
+      <i class="el-icon-loading"></i>
       查询中，请稍等
     </div>
   </div>
@@ -34,13 +38,15 @@ export default {
   data () {
     return {
       house: null,
+      isLoading:true,
       houseReg: /\d+-\d+[A-X]*-\d+/g,//门牌号：2-1-1或1-12A-3
       houseData: null,
     }
   },
   methods:{
     changeHouse: function(house,reg){
-      let finalData = [];
+      let totalFloor = parseInt(house[0].zcs),//总楼层数
+          finalData = new Array(totalFloor);//按楼层存户号
 
       for (let value of house){
         let doorArr = value.bdczl.match(reg),
@@ -60,38 +66,39 @@ export default {
         }   
         //新增change属性，存放完整门牌号，单元号，楼号，户号
         value.change = { doorNum, unit, floor, num }; 
-
-        if (typeof finalData[value.change.floor-1] === "undefined"){
-          finalData[value.change.floor-1] = [];
+        //按楼层从高到低排序
+        if (typeof finalData[totalFloor - value.change.floor] === "undefined"){
+          finalData[totalFloor - value.change.floor] = [];
         };
 
-        finalData[value.change.floor-1].push(value);
+        finalData[totalFloor - value.change.floor].push(value);
       }
-      //排序
+     
+      //对每层楼，按单元号、户号从小到大排序
       for (let flr of finalData){
         flr.sort(function(x,y){
-          const diff = x.change.unit - y.change.unit;
 
-          if (diff > 0){
+          if (x.change.unit > y.change.unit){
             return 1;
-          } else if (diff <0 ){
+          } else if (x.change.unit < y.change.unit ){
             return -1;
           } else {
-            if (x.change.floor > y.change.floor){
+            if (x.change.num > y.change.num){
               return 1;
-            } else if (x.change.floor < y.change.floor){
+            } else if (x.change.num < y.change.num){
               return -1;
             } else {
               return 0;
             }
           }
-
+          
         });
       }
 
       return finalData;
     },
-    showPic: function(row){
+    showPic: function(row,expanded){
+      if (this.houseData == null){
         this.$http.get(`${systemParam.serviceAddress}/${systemParam.getHouse}${row.NUM}`)
           .then(response => {
             let responseObj = string2Obj(response.data);
@@ -102,7 +109,7 @@ export default {
 
               if ( code === "200" && data.length > 0) {
                this.houseData= this.changeHouse(data,this.houseReg);
-               console.log(this.houseData)
+               console.log(this.houseData[0][2])
               } else {
                 alert("没有对应数据！"+code)
               };
@@ -114,9 +121,33 @@ export default {
           .catch(response => {
             console.log(response)
           });
+      }
     },
-    addHousePic:function(row,expanded){
-      console.log(expanded);
+    showCon:function(row, column, cell, event){
+      var ev = ev||window.event,
+          target = ev.target||ev.srcElement,
+          classList = target.classList;
+
+      if ( classList.contains('floor') ){
+        return
+      }
+
+      let pos = target.dataset.tag.split('-').map(function(value){
+        return parseInt(value);
+      });
+
+      let [ floor, num ] = pos,
+          finalCell = this.houseData[floor][num];//获取到当前点击的单元格对应的数据
+
+      if ( classList.contains('unbook') ){
+
+      } else {
+        this.$notify({
+          title: '警告',
+          message: `${finalCell.change.doorNum}不参加此次登记`,
+          type: 'warning'
+        });
+      };
     }
   },
   created:function(){
@@ -156,11 +187,44 @@ export default {
 </script>
 
 <style lang='less'>
+.house1{
+  background-color: #F7BA2A;
+}
+.loading{
+  height: 100%;
+
+  .loading-per{
+    width: 200px;
+    margin: auto;
+    padding: 100px 0 10px 0;
+  }
+}
 .housePic{
   width: 100%;
   height: 100%;
+  color: #fff;
 
-  
+  td{
+     background-color: #D3DCE6;
+  }
+  .floor{
+    background-color: #99A9BF;
+  }
+  .unbook{
+    color: black;
+    background-color: #13CE66;
+  }
+
+  tr:hover>td{
+    background-color:#D3DCE6 !important;
+  }
+  tr:hover>td.floor{
+    background-color:#99A9BF!important;
+  }
+  tr:hover>td.unbook{
+    background-color:#13CE66 !important;
+  }
+
 }
 #modelist{
   position: relative;
@@ -176,6 +240,11 @@ export default {
 
     th{
       text-align: center;
+      background-color: #20A0FF;
+    }
+    th div{
+      background-color: #20A0FF;
+      color: #fff;
     }
   }
   .mode-btns{
