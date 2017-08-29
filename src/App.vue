@@ -17,7 +17,7 @@
       </el-col>
       <el-col :xs="0" :sm="0" :md="0" :lg="1" class="page noprint"></el-col>
     </el-row>
-    <footer class="noprint"></footer>
+    <footer class="noprint">@copy-right 辽宁万朋测绘地理信息科技开发有限公司</footer>
   </div>
 </template>
 
@@ -88,7 +88,8 @@ nav {
 }
 footer {
   height: 3%;
-  background-color: rgb(134,153,163);
+  background-color: #C0CCDA;
+  font-size: 12px;
 }
 .main {
   height: 87%;

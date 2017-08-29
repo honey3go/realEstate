@@ -5,11 +5,18 @@ import creatMode from '@/components/creatMode'
 import writeMode from '@/components/writeMode'
 import query from '@/components/query'
 import fourthPage from '@/components/fourthPage'
+import home from '@/components/home'
+
 Vue.use(Router)
 
 export default new Router({
   mode:'history',//切换路径模式，变成history模式,不然路径为/#/home
   routes: [
+    {
+      path:'/',
+      name:'home',
+      component: home
+    },
     {
       path: '/modeMng',
       name: 'modeList',
@@ -20,19 +27,20 @@ export default new Router({
       name: 'creatMode',
       component: creatMode,
       children :[
-      	{ path: 'p1', },
-		{ path: 'p2', },
-		{ path: 'p3', component: writeMode },
-		{ path: 'p4', component: fourthPage },
-		{ path: 'p5', },
-		{ path: 'p6', },
-		{ path: 'p7', },
-		{ path: 'p8', },
-		{ path: 'p9', },
-		{ path: 'p10', },
-		{ path: 'p11', },
-		{ path: 'p12', },
-		{ path: 'p13', },
+        { path: '/', component: writeMode},
+        { path: 'p1', },
+      	{ path: 'p2', },
+      	{ path: 'p3', component: writeMode },
+      	{ path: 'p4', component: fourthPage },
+      	{ path: 'p5', },
+      	{ path: 'p6', },
+      	{ path: 'p7', },
+      	{ path: 'p8', },
+      	{ path: 'p9', },
+      	{ path: 'p10', },
+      	{ path: 'p11', },
+      	{ path: 'p12', },
+      	{ path: 'p13', },
 	  ]		  
     },
     {

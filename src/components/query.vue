@@ -3,25 +3,21 @@
     <div class="mode-list" v-if="house">
       <el-table :data="house" height="100%" max-height="100%" border style="width: 100%;height:100%;" @expand="showPic">
         <el-table-column type="expand" width="50">
-          <el-form>
-            <table class="housePic" @click="showCon">
+          <!-- <el-form v-if="house"> -->
+            <table class="housePic" @click="showCon" v-if="houseData"> 
               <tr v-for="(item,index) in houseData">
                 <td class="floor" disabled>{{`${houseData.length - index}楼`}}</td>
                 <td v-for="(house,num) in item" :class="{'unbook':house.ygbz==1}" :data-tag="index+'-'+num">{{house.change.doorNum}}</td>
               </tr>
             </table>
-          </el-form>
+          <!-- </el-form> -->
         </el-table-column>
         <el-table-column prop="address" label="楼盘地址" width="380"></el-table-column>
         <el-table-column prop="NUM" label="不动产单元号" width="380"></el-table-column>
         <el-table-column prop="tnum" label="未登记户数" ></el-table-column>
       </el-table>
-
     </div>
     <div v-else class="loading">
-      <div class="loading-per">
-        <el-progress :text-inside="true" :stroke-width="18" :percentage="70"></el-progress>
-      </div>
       <i class="el-icon-loading"></i>
       查询中，请稍等
     </div>
@@ -99,6 +95,7 @@ export default {
     },
     showPic: function(row,expanded){
       if (this.houseData == null){
+
         this.$http.get(`${systemParam.serviceAddress}/${systemParam.getHouse}${row.NUM}`)
           .then(response => {
             let responseObj = string2Obj(response.data);
@@ -109,7 +106,6 @@ export default {
 
               if ( code === "200" && data.length > 0) {
                this.houseData= this.changeHouse(data,this.houseReg);
-               console.log(this.houseData[0][2])
               } else {
                 alert("没有对应数据！"+code)
               };
@@ -140,12 +136,23 @@ export default {
           finalCell = this.houseData[floor][num];//获取到当前点击的单元格对应的数据
 
       if ( classList.contains('unbook') ){
+        
 
+        this.$notify({
+          title: '消息',
+          message: `马上为您跳转至${finalCell.change.doorNum}合同编辑页面`,
+          type: 'success',
+          duration: 2500,
+          onClose: () => {
+            this.$router.push( { path:'/creatMode'} )
+          }
+        });
       } else {
         this.$notify({
           title: '警告',
           message: `${finalCell.change.doorNum}不参加此次登记`,
-          type: 'warning'
+          type: 'warning',
+          duration: 2500
         });
       };
     }
@@ -181,23 +188,24 @@ export default {
   watch:{
     userBd:function(newVal){
       console.log('23')
+    },
+    houseData:function(){
+      console.log('houseDatachange')
     }
   }
 }
 </script>
 
 <style lang='less'>
+.picshow{
+
+}
 .house1{
   background-color: #F7BA2A;
 }
 .loading{
   height: 100%;
-
-  .loading-per{
-    width: 200px;
-    margin: auto;
-    padding: 100px 0 10px 0;
-  }
+  padding: 100px 0 10px 0;
 }
 .housePic{
   width: 100%;

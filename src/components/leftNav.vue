@@ -6,11 +6,11 @@
         <span slot="title">模板管理</span>
       </template>
       <el-menu-item index="modeMng">模板管理</el-menu-item>
-      <el-submenu index="1-5">
+<!--       <el-submenu index="1-5">
         <template slot="title">子导航</template>
         <el-menu-item index="1-3-1">选项3</el-menu-item>
         <el-menu-item index="1-3-2">选项4</el-menu-item>
-      </el-submenu>
+      </el-submenu> -->
     </el-submenu>
     <el-submenu index="2">
       <template slot="title">

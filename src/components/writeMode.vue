@@ -49,13 +49,11 @@ export default {
     return {
       modeMsg:{
         modeName: "",
-        page: 0,
         more: "",
-        lastEditDate: "",
-        lastEditName: "",
         date: "",
         name: "",
       },
+      
       normalIpt:["注册地址：","营业执照注册号：","企业资质证书号：","法定代表人：","联系电话："]
     }
   },
@@ -64,7 +62,25 @@ export default {
       window.print();
     },
     savePage:function(){
-      console.log("hh")
+      let  necessaries = Object.values(this.modeMsg).every(function(item){
+        return item !== '';
+      });
+
+      if ( necessaries ){
+        this.$alert('保存成功！', '消息', {
+          confirmButtonText: '确定',
+          type: 'success',
+          callback: action => {
+            this.$router.push({path:'/modeMng'});
+          }
+        });
+      } else {
+        this.$alert('您还有必填项未填写，无法保存', '警告', {
+          confirmButtonText: '确定',
+          type: 'error',
+          callback: action => {}
+        });
+      };
     }
   }
 }
