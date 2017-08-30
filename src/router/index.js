@@ -6,6 +6,7 @@ import writeMode from '@/components/writeMode'
 import query from '@/components/query'
 import fourthPage from '@/components/fourthPage'
 import home from '@/components/home'
+import login from '@/components/login'
 
 Vue.use(Router)
 
@@ -21,6 +22,11 @@ export default new Router({
       path: '/modeMng',
       name: 'modeList',
       component: modeList
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: login
     },
     {
       path: '/creatMode',

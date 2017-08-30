@@ -1,5 +1,5 @@
 <template>
-  <el-menu default-active="2" class="el-menu-vertical-demo" :collapse="isCollapse" @select="select">
+  <el-menu default-active="2" class="el-menu-vertical-demo" :collapse="isCollapse" @select="select" id="leftBar">
     <el-submenu index="1">
       <template slot="title">
         <i class="el-icon-document"></i>
@@ -41,6 +41,11 @@ export default {
   data () {
     return {
       isCollapse: false
+    }
+  },
+  created:function(){
+    if (document.getElementsByTagName('body')[0].offsetWidth < 1100){
+      this.isCollapse = true;
     }
   },
   methods:{

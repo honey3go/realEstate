@@ -2,19 +2,10 @@
   <div id="modelist">
     <div class="mode-list" v-if="house">
       <el-table :data="house" height="100%" max-height="100%" border style="width: 100%;height:100%;" @expand="showPic">
-        <el-table-column type="expand" width="50">
-          <!-- <el-form v-if="house"> -->
-            <table class="housePic" @click="showCon" v-if="houseData"> 
-              <tr v-for="(item,index) in houseData">
-                <td class="floor" disabled>{{`${houseData.length - index}楼`}}</td>
-                <td v-for="(house,num) in item" :class="{'unbook':house.ygbz==1}" :data-tag="index+'-'+num">{{house.change.doorNum}}</td>
-              </tr>
-            </table>
-          <!-- </el-form> -->
-        </el-table-column>
-        <el-table-column prop="address" label="楼盘地址" width="380"></el-table-column>
-        <el-table-column prop="NUM" label="不动产单元号" width="380"></el-table-column>
-        <el-table-column prop="tnum" label="未登记户数" ></el-table-column>
+        <housePic :houseData="houseData"></housePic>
+        <el-table-column prop="address" label="楼盘地址" min-width="235"></el-table-column>
+        <el-table-column prop="NUM" label="不动产单元号" min-width="235"></el-table-column>
+        <el-table-column prop="tnum" label="未登记户数"></el-table-column>
       </el-table>
     </div>
     <div v-else class="loading">
@@ -27,6 +18,7 @@
 <script>
 import { string2Obj } from '../js/generalMethods.js'
 import systemParam from '../js/systemParam.js'
+import housePic from './housePic'
 
 export default {
   name: 'query',
@@ -38,6 +30,9 @@ export default {
       houseReg: /\d+-\d+[A-X]*-\d+/g,//门牌号：2-1-1或1-12A-3
       houseData: null,
     }
+  },
+  components:{
+    housePic
   },
   methods:{
     changeHouse: function(house,reg){
@@ -119,43 +114,6 @@ export default {
           });
       }
     },
-    showCon:function(row, column, cell, event){
-      var ev = ev||window.event,
-          target = ev.target||ev.srcElement,
-          classList = target.classList;
-
-      if ( classList.contains('floor') ){
-        return
-      }
-
-      let pos = target.dataset.tag.split('-').map(function(value){
-        return parseInt(value);
-      });
-
-      let [ floor, num ] = pos,
-          finalCell = this.houseData[floor][num];//获取到当前点击的单元格对应的数据
-
-      if ( classList.contains('unbook') ){
-        
-
-        this.$notify({
-          title: '消息',
-          message: `马上为您跳转至${finalCell.change.doorNum}合同编辑页面`,
-          type: 'success',
-          duration: 2500,
-          onClose: () => {
-            this.$router.push( { path:'/creatMode'} )
-          }
-        });
-      } else {
-        this.$notify({
-          title: '警告',
-          message: `${finalCell.change.doorNum}不参加此次登记`,
-          type: 'warning',
-          duration: 2500
-        });
-      };
-    }
   },
   created:function(){
     console.log(this.userBd,"userBd");
@@ -212,15 +170,15 @@ export default {
   height: 100%;
   color: #fff;
 
-  td{
-     background-color: #D3DCE6;
+  td,th#en1{
+     background-color: #D3DCE6 !important;
   }
   .floor{
-    background-color: #99A9BF;
+    background-color: #99A9BF !important;
   }
-  .unbook{
+  .unbook,#en2{
     color: black;
-    background-color: #13CE66;
+    background-color: #13CE66 !important;
   }
 
   tr:hover>td{
