@@ -1,7 +1,7 @@
 <template>
   <div id="modelist">
     <div class="mode-list" v-if="house">
-      <el-table :data="house" height="100%" max-height="100%" border style="width: 100%;height:100%;" @expand="showPic">
+      <el-table :data="house" height="100%" max-height="100%" border style="width: 100%;height:100%;" @expand="showPic" >
         <housePic :houseData="houseData"></housePic>
         <el-table-column prop="address" label="楼盘地址" min-width="235"></el-table-column>
         <el-table-column prop="NUM" label="不动产单元号" min-width="235"></el-table-column>
@@ -28,7 +28,7 @@ export default {
       house: null,
       isLoading:true,
       houseReg: /\d+-\d+[A-X]*-\d+/g,//门牌号：2-1-1或1-12A-3
-      houseData: null,
+      houseData: {},
     }
   },
   components:{
@@ -89,7 +89,8 @@ export default {
       return finalData;
     },
     showPic: function(row,expanded){
-      if (this.houseData == null){
+
+      if ( !this.houseData.hasOwnProperty(row.NUM)){
 
         this.$http.get(`${systemParam.serviceAddress}/${systemParam.getHouse}${row.NUM}`)
           .then(response => {
@@ -97,10 +98,10 @@ export default {
             console.log("house")
 
             if (responseObj!==null){
-              let { code, msg, data} = responseObj;
+              let { code, msg, data } = responseObj;
 
               if ( code === "200" && data.length > 0) {
-               this.houseData= this.changeHouse(data,this.houseReg);
+               this.houseData[row.NUM] = this.changeHouse(data,this.houseReg);
               } else {
                 alert("没有对应数据！"+code)
               };

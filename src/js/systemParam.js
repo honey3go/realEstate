@@ -5,7 +5,7 @@
  * @version $Id$
  */
 export default { 
-	serviceAddress: "http://localhost:8080/Appapi.asmx",
+	serviceAddress: "http://192.168.1.164:89/Appapi.asmx",
 	getBuilding: "/getBuilding?developers=",
 	getHouse: "/getHouse?num="
 }

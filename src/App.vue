@@ -54,7 +54,7 @@ export default {
           admin:'',
           pwd:'' 
         },
-        user:null,
+        user:{ name : '辽宁龙田置业有限责任公司'},
         result: null,
       };
   },
