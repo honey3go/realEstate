@@ -43,13 +43,16 @@
 </template>
 
 <script>
+import systemParam from '../js/systemParam.js'
+import { string2Obj } from '../js/generalMethods.js'
+
 export default {
   name: 'write-mode',
   data () {
     return {
       modeMsg:{
         modeName: "",
-        more: "",
+        more: "无",
         date: "",
         name: "",
       },
@@ -57,6 +60,7 @@ export default {
       normalIpt:["注册地址：","营业执照注册号：","企业资质证书号：","法定代表人：","联系电话："]
     }
   },
+  props:['user'],
   methods:{
     printPage:function(){
       window.print();
@@ -67,13 +71,29 @@ export default {
       });
 
       if ( necessaries ){
-        this.$alert('保存成功！', '消息', {
-          confirmButtonText: '确定',
-          type: 'success',
-          callback: action => {
-            this.$router.push({path:'/modeMng'});
-          }
-        });
+        let url = `${systemParam.serviceAddress}${systemParam.postMode}`,
+            param = { 
+                      developers: `${this.user.name}`,
+                      jsonpar: JSON.stringify(this.modeMsgAuto)
+                    };
+
+        this.$http.post( url, param )
+          .then(response =>{
+              let { code, msg, data } = string2Obj( response.data );
+
+              if ( code === "200" ){
+                this.$alert('保存成功！', '消息', {
+                confirmButtonText: '确定',
+                type: 'success',
+                callback: action => {
+                  this.$router.push({path:'/modeMng'});
+                }
+              });
+            }
+          })
+          .catch(response => {
+            console.log(response)
+          });
       } else {
         this.$alert('您还有必填项未填写，无法保存', '警告', {
           confirmButtonText: '确定',
@@ -81,6 +101,13 @@ export default {
           callback: action => {}
         });
       };
+    }
+  },
+  computed:{
+    modeMsgAuto: function(){
+      let { modeName, more, date, name } = this.modeMsg,
+          page = 1;
+      return { modeName, more, date, name, page, lastEditDate:date, lastEditName:name, user:this.user.name };
     }
   }
 }

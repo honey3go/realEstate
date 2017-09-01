@@ -24,11 +24,6 @@ export default new Router({
       component: modeList
     },
     {
-      path: '/login',
-      name: 'login',
-      component: login
-    },
-    {
       path: '/creatMode',
       name: 'creatMode',
       component: creatMode,

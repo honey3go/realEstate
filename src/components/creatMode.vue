@@ -4,7 +4,7 @@
       <el-tree :data="treeData" :props="defaultProps" node-key="path" ref="tree" highlight-current default-expand-all class="opt-tree" @node-click="getCheckedNodes"></el-tree>
     </el-col>
     <el-col :xs="20" :sm="18" :md="18" :lg="18" class="main-write print">
-      <router-view class="page print"></router-view>
+      <router-view class="page print" :user="userBd"></router-view>
     </el-col>
   </el-row>
 </template>
@@ -73,6 +73,7 @@ export default {
         }
     }
   },
+  props:['userBd'],
   methods: {
     getCheckedNodes(obj) {
       if (obj.path){

@@ -41,7 +41,6 @@
 </template>
 
 <script>
-import login from './components/login'
 import leftNav from './components/leftNav'
 import systemParam from './js/systemParam.js'
 import { string2Obj } from './js/generalMethods.js'
@@ -50,18 +49,23 @@ export default {
   name: 'app',
   data() {
       return {
-        input_msg:{
-          admin:'',
-          pwd:'' 
+        input_msg:{//保存登录的用户名和密码，与用户数入在Input中的值双向绑定
+          admin:'',//用户名
+          pwd:'' //密码
         },
-        user:{ name : '辽宁龙田置业有限责任公司'},
-        result: null,
+        user:{ name : '辽宁龙田置业有限责任公司'},//用户名，用于传递给子组件
       };
   },
   components:{
-    leftNav,login
+    leftNav
   },
   methods:{
+    /**
+     * [show 登录按钮点击事件，验证成功则卸载登录页面并开始渲染内容页面，厚泽不渲染]
+     * @AuthorHTL 王叁
+     * @DateTime  2017-09-01T15:55:15+0800
+     * @return    {[type]}                 [description]
+     */
     show:function(){
       let ipt = this.input_msg;
 

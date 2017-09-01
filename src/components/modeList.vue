@@ -1,9 +1,9 @@
 <template>
   <div id="modelist">
     <div class="mode-list">
-      <el-table :data="tableData3" height="100%" max-height="100%" border style="width: 100%;height:100%;" @select="handleRowChange" @select-all="handleRowChange">
+      <el-table :data="tableData"  v-if="tableData" height="100%" max-height="100%" border style="width: 100%;height:100%;" empty-text="查询中，请稍等" @select="handleRowChange" @select-all="handleRowChange">
         <el-table-column type="selection" min-width="55"></el-table-column>
-        <el-table-column type="index" min-width="50"></el-table-column>
+        <el-table-column type="index" min-width="65"></el-table-column>
         <el-table-column prop="modeName" label="模板名称" min-width="100"></el-table-column>
         <el-table-column prop="name" label="模板定制人" min-width="80"></el-table-column>
         <el-table-column prop="date" label="模板定制时间" min-width="130"></el-table-column>
@@ -24,77 +24,14 @@
 
 <script>
 import { string2Obj } from '../js/generalMethods.js'
+import systemParam from '../js/systemParam.js'
 
 export default {
   name: 'modeList',
+  props:['userBd'],
   data () {
     return {
-      isCollapse: false,
-      tableData3: [{
-          modeName: '模板1',
-          page: 3,
-          more: '无',
-          lastEditDate: '2017-01-05',
-          lastEditName: '王大拿',
-          date: '2016-05-03',
-          name: '王小虎',
-        }, {
-          modeName: '模板2',
-          page: 3,
-          more: '无',
-          lastEditDate: '2017-01-05',
-          lastEditName: '王大拿',
-          date: '2016-05-02',
-          name: '王小虎',
-        }, {
-          modeName: '模板3',
-          page: 3,
-          more: '无',
-          lastEditDate: '2017-01-05',
-          lastEditName: '王大拿',
-          date: '2016-05-04',
-          name: '王小虎',
-        }, {
-          modeName: '模板4',
-          page: 3,
-          more: '无',
-          lastEditDate: '2017-01-05',
-          lastEditName: '王大拿',
-          date: '2016-05-01',
-          name: '王小虎',
-        }, {
-          modeName: '模板5',
-          page: 3,
-          more: '无',
-          lastEditDate: '2017-01-05',
-          lastEditName: '王大拿',
-          date: '2016-05-08',
-          name: '王小虎',
-        }, {
-          modeName: '模板6',
-          page: 3,
-          more: '无',
-          lastEditDate: '2017-01-05',
-          lastEditName: '王大拿',
-          date: '2016-05-06',
-          name: '王小虎',
-        }, {
-          modeName: '模板7',
-          page: 3,
-          more: '无',
-          lastEditDate: '2017-01-05',
-          lastEditName: '王大拿',
-          date: '2016-05-07',
-          name: '王小虎',
-        },{
-          modeName: '模板8',
-          page: 3,
-          more: '无',
-          lastEditDate: '2017-01-05',
-          lastEditName: '王大拿',
-          date: '2016-05-06',
-          name: '王小虎',
-        }],
+      tableData: [],//用于存放全部用户的全部模板数据
       selectedRows:[]
     }
   },
@@ -158,17 +95,17 @@ export default {
           type: 'warning'
         }).then(() => {
           //删除选中项  
-          let beforeLen =  this.tableData3.length;
+          let beforeLen =  this.tableData.length;
               
-          for(let i = 0 ; i < this.tableData3.length; i++){
+          for(let i = 0 ; i < this.tableData.length; i++){
             for(let j = 0 ; j < this.selectedRows.length; j++){
-                if(this.tableData3[i] == this.selectedRows[j]){
-                  this.tableData3.splice(i,1);
+                if(this.tableData[i] == this.selectedRows[j]){
+                  this.tableData.splice(i,1);
                 }
              }
           }
 
-          let afterLen = this.tableData3.length;
+          let afterLen = this.tableData.length;
           //判断删除的项数是否与选择集一致
           if ( beforeLen - afterLen === this.selectedRows.length ){
             this.$message({
@@ -190,6 +127,33 @@ export default {
       };
     }
   },
+  /**
+   * [created 数据初始化之后，根据用户名立即获取全部模板列表]
+   * @AuthorHTL 王叁
+   * @DateTime  2017-09-01T15:36:23+0800
+   */
+  created:function(){
+    this.$http.get(`${systemParam.serviceAddress}${systemParam.getModeList}${this.userBd.name}`)
+    .then(response => {
+      let responseObj = string2Obj(response.data);
+      console.log("house")
+
+      if (responseObj!==null){
+        let { code, msg, data } = responseObj;
+
+        if ( code === "200" && data.length > 0) {
+         this.tableData = data;
+        } else {
+          alert("没有对应数据！"+code)
+        };
+      } else {
+        alert("网络或服务器错误")
+      };
+    })
+    .catch(response => {
+      console.log(response)
+    });
+  }
 }
 </script>
 

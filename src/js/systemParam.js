@@ -5,7 +5,9 @@
  * @version $Id$
  */
 export default { 
-	serviceAddress: "http://192.168.1.164:89/Appapi.asmx",
+	serviceAddress: "http://192.168.1.246:89/Appapi.asmx",
 	getBuilding: "/getBuilding?developers=",
-	getHouse: "/getHouse?num="
+	getHouse: "/getHouse?num=",
+	getModeList:"/getCBmodeList?developers=",
+	postMode: "/modesubmit",
 }
