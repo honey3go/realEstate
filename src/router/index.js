@@ -6,7 +6,7 @@ import writeMode from '@/components/writeMode'
 import query from '@/components/query'
 import fourthPage from '@/components/fourthPage'
 import home from '@/components/home'
-import login from '@/components/login'
+import showMode from '@/components/showMode'
 
 Vue.use(Router)
 
@@ -22,6 +22,11 @@ export default new Router({
       path: '/modeMng',
       name: 'modeList',
       component: modeList
+    },
+    {
+      path: '/showMode',
+      name: 'showMode',//别名，用于隐藏传输的模板id
+      component: showMode,
     },
     {
       path: '/creatMode',

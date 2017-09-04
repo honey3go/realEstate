@@ -14,10 +14,11 @@
       </el-table>
     </div>
     <div class="mode-btns">
-      <el-button type="primary">查看/打印</el-button>
+      <el-button type="primary" icon="information" @click="viewMode">查看</el-button>
       <el-button type="primary" icon="plus" @click="creatNewMode">新建</el-button>
       <el-button type="primary" icon="edit" @click="modifyMode">修改</el-button>
       <el-button type="primary" icon="delete" @click="deleteMode">删除</el-button>
+      <el-button type="primary" icon="document" @click="editContact">填写合同</el-button>
     </div>
   </div>
 </template>
@@ -47,6 +48,28 @@ export default {
       this.selectedRows = selection; 
     },
     /**
+     * [viewMode 查看按钮点击事件，跳转到合同查看页面]
+     * @AuthorHTL 王叁
+     * @DateTime  2017-09-04T16:42:10+0800
+     */
+    viewMode: function(){
+      if ( this.selectedRows.length === 0 ){//选择集为空时不能查看
+        this.$alert('请选择一个模板进行查看！', '警告', {
+          confirmButtonText: '确定',
+          type: 'warning',
+          callback: action => {}//$alert, $confirm 
+        });
+      } else if ( this.selectedRows.length >= 2 ){//选择集中有多个对象时不能查看
+        this.$alert('只能选择一个模板进行查看！', '警告', {
+          confirmButtonText: '确定',
+          type: 'warning',
+          callback: action => {}
+        });
+      } else {//此处路由跳转使用别名，地址栏中隐藏路由参数：id:模板ID，readonly:是否只读
+        this.$router.push({name: 'showMode',params:{ id: this.selectedRows[0].id,readonly:1}});
+      };
+    },
+    /**
      * [creatNewMode 新建按钮点击事件，跳转到creatMode页面]
      * @AuthorHTL 王叁
      * @DateTime  2017-08-30T12:00:52+0800
@@ -73,7 +96,7 @@ export default {
           callback: action => {}
         });
       } else {
-        this.$router.push('/creatMode');
+        this.$router.push({path: '/creatMode'});
       }; 
     },
     /**
@@ -124,6 +147,28 @@ export default {
             message: '已取消删除'
           });          
         });
+      };
+    },
+    /**
+     * [editContact 填写合同按钮点击事件，点击跳转合同填写页面]
+     * @AuthorHTL 王叁
+     * @DateTime  2017-09-04T16:44:53+0800
+     */
+    editContact:function(){
+      if ( this.selectedRows.length === 0 ){//选择集为空时不能填写
+        this.$alert('请选择一个模板填写合同！', '警告', {
+          confirmButtonText: '确定',
+          type: 'warning',
+          callback: action => {}//$alert, $confirm 
+        });
+      } else if ( this.selectedRows.length >= 2 ){//选择集中有多个对象时不能填写
+        this.$alert('只能选择一个模板填写合同！', '警告', {
+          confirmButtonText: '确定',
+          type: 'warning',
+          callback: action => {}
+        });
+      } else {//此处路由跳转使用别名，地址栏中隐藏路由参数：id:模板ID，readonly:是否只读
+        this.$router.push({name: 'showMode',params:{ id: this.selectedRows[0].id,readonly:0}});
       };
     }
   },

@@ -5,6 +5,14 @@
     </el-col>
     <el-col :xs="20" :sm="18" :md="18" :lg="18" class="main-write print">
       <router-view class="page print" :user="userBd"></router-view>
+<!--         <div class="prt-btn noprint">
+        <div>
+          <el-button type="primary" icon="document" title="预览/打印" class="norad">&nbsp</el-button>
+        </div>
+        <div>
+          <el-button type="success" icon="upload2" title="保存" class="norad">&nbsp</el-button>
+        </div>
+      </div> -->
     </el-col>
   </el-row>
 </template>
@@ -14,7 +22,7 @@ export default {
   name: 'creat-mode',
   data () {
     return {
-       treeData: [{
+      treeData: [{
           label: '拆分后的模板表单',
           children: [{
             label: '封面',
@@ -66,11 +74,12 @@ export default {
               label: '附件四'
             }]
           }]
-        }],
-        defaultProps: {
-          children: 'children',
-          label: 'label'
-        }
+      }],
+      defaultProps: {
+        children: 'children',
+        label: 'label'
+      },
+      creatId:""
     }
   },
   props:['userBd'],
@@ -114,4 +123,15 @@ export default {
   overflow-x: auto;
   overflow-y: auto;
 }
+/*.prt-btn{
+  position: fixed;
+  top:150px;
+  line-height: 40px;
+}
+.norad{
+  border-radius: 0;
+  width: 80px;
+  height: 36px;
+
+}*/
 </style>

@@ -2,31 +2,31 @@
   <div class="write print">
     <div class="write-wrap print">
       <div class="write-edge">
-        <h3>模板名称：<input name="modeName" v-model="modeMsg.modeName" :class="[{'ipt-active':modeMsg.modeName},'spec-ipt','longer']"></h3>
-        <h3>制作人：<input name="name" v-model="modeMsg.name" :class="[{'ipt-active':modeMsg.name},'spec-ipt']">制作时间：<input type="date" name="date" v-model="modeMsg.date" :class="[{'ipt-active':modeMsg.date},'spec-ipt']"></h3>
-        <h3>备注：<input name="more" v-model="modeMsg.more" :class="[{'ipt-active':modeMsg.more},'spec-ipt','longer']"></h3>
+        <h3>模板名称：<input name="modeName" v-model="modeMsg.modeName" :class="[{'ipt-active':modeMsg.modeName},'spec-ipt','longer']" data-estl="1"></h3>
+        <h3>制作人：<input name="name" v-model="modeMsg.name" :class="[{'ipt-active':modeMsg.name},'spec-ipt']" data-estl="1">制作时间：<input type="date" name="date" v-model="modeMsg.date" :class="[{'ipt-active':modeMsg.date},'spec-ipt']" data-estl="1"></h3>
+        <h3>备注：<input name="more" v-model="modeMsg.more" :class="[{'ipt-active':modeMsg.more},'spec-ipt','longer']" data-estl="0"></h3>
         <h1 class="title">房&nbsp;屋&nbsp;商&nbsp;品&nbsp;买&nbsp;卖&nbsp;合&nbsp;同</h1>
-        <h3>（合同编号<input>）</h3>
+        <h3>（合同编号<input data-estl="0">）</h3>
         <h3 class="title algn">合同双方当事人：</h3>
         <!-- 出卖人 -->
-        <h3 class="title algn">出&nbsp;&nbsp;卖&nbsp;&nbsp;人&nbsp;：<input></h3>
+        <h3 class="title algn">出&nbsp;&nbsp;卖&nbsp;&nbsp;人&nbsp;：<input data-estl="0"></h3>
         <h3 class="normal-ipt" v-for="item in normalIpt">
-          <em>{{item}}<span></span></em><input type="" name="">
+          <em>{{item}}<span></span></em><input type="" name="" data-estl="0">
         </h3>
-        <h3 class="title algn">委托代理人：<input></h3>
-        <h3>地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址：<input :class="['ipt-active','longer']"></h3>
-        <h3>邮政编码：<input :class="['ipt-active','normal']">联系电话：<input :class="['ipt-active','normal']"></h3>
-        <h3 class="title algn">委托代理机构：<input></h3>
-        <h3>营业执照注册号：<input :class="['ipt-active','short']">法定代表人：<input :class="['ipt-active','short']"></h3>
-        <h3>邮政编码：<input :class="['ipt-active','normal']">联系电话：<input :class="['ipt-active','normal']"></h3>
+        <h3 class="title algn">委托代理人：<input data-estl="0"></h3>
+        <h3>地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址：<input class="ipt-active longer" data-estl="0"></h3>
+        <h3>邮政编码：<input :class="['ipt-active','normal']" data-estl="0">联系电话：<input :class="['ipt-active','normal']" data-estl="0"></h3>
+        <h3 class="title algn">委托代理机构：<input data-estl="0"></h3>
+        <h3>营业执照注册号：<input :class="['ipt-active','short']" data-estl="0">法定代表人：<input :class="['ipt-active','short']" data-estl="0"></h3>
+        <h3>邮政编码：<input :class="['ipt-active','normal']" data-estl="0">联系电话：<input :class="['ipt-active','normal']" data-estl="0"></h3>
         <!-- 买受人 -->
-        <h3 class="title algn">买&nbsp;&nbsp;受&nbsp;&nbsp;人&nbsp;：<input></h3>
-        <h3>【本人】姓名：<input :class="['ipt-active','long']"></h3>
-        <h3>地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址：<input :class="['ipt-active','longer']"></h3>
-        <h3>邮政编码：<input :class="['ipt-active','normal']">联系电话：<input :class="['ipt-active','normal']"></h3>
-        <h3 class="title algn">委托代理人：<input></h3>
-        <h3>地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址：<input :class="['ipt-active','longer']"></h3>
-        <h3>邮政编码：<input :class="['ipt-active','normal']">联系电话：<input :class="['ipt-active','normal']"></h3>
+        <h3 class="title algn">买&nbsp;&nbsp;受&nbsp;&nbsp;人&nbsp;：<input data-estl="0"></h3>
+        <h3>【本人】姓名：<input :class="['ipt-active','long']" data-estl="0"></h3>
+        <h3>地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址：<input :class="['ipt-active','longer']" data-estl="0"></h3>
+        <h3>邮政编码：<input :class="['ipt-active','normal']" data-estl="0">联系电话：<input :class="['ipt-active','normal']" data-estl="0"></h3>
+        <h3 class="title algn">委托代理人：<input data-estl="0"></h3>
+        <h3>地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址：<input :class="['ipt-active','longer']" data-estl="0"></h3>
+        <h3>邮政编码：<input :class="['ipt-active','normal']" data-estl="0">联系电话：<input :class="['ipt-active','normal']" data-estl="0"></h3>
       </div> 
       <div class="prt-btn noprint">
         <div>
@@ -109,7 +109,8 @@ export default {
           page = 1;
       return { modeName, more, date, name, page, lastEditDate:date, lastEditName:name, user:this.user.name };
     }
-  }
+  },
+
 }
 </script>
 

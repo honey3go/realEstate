@@ -4,17 +4,17 @@
       <div class="write-edge">
           <p class="firstPara">根据《中华人民共和国合同法》、《中华人民共和国城市房地产管理法》及其他有关法律、法规之规定，买受人和出卖人在平等、自愿、协商一致的基础上就买卖商品房达成如下协议：</p>
         <h3>第一条 项目建设依据</h3>  
-          <p>出卖人以<select><option v-for="item in optionsA">{{item}}</option></select>方式取得位于<input :class="['ipt-active','normal']">、编号为<input>的地块的土地使用权。</p>
-          <p>土地使用证件号：<select><option v-for="item in optionsB">{{item}}</option></select>为<input>。</p>
-          <p>该地块土地面积为<input :class="['ipt-active','normal']">㎡，规划用途为<input>，土地使用年限自<input type="date" name="startdate" v-model="modeMsg.startdate" :class="[{'ipt-active':modeMsg.startdate},'spec-ipt','normal']">至<input type="date" name="stopdate" v-model="modeMsg.stopdate" :class="[{'ipt-active':modeMsg.stopdate},'spec-ipt','normal']">。</p>
-          <p>出卖人经批准，在上述地块上建设商品房，名称类别<select><option v-for="item in optionsC">{{item}}</option></select><input :class="['ipt-active','long']">。</p>
-          <p>建设工程规划许可证号为<input :class="['ipt-active','normal']">，施工许可证号为<input :class="['ipt-active','normal']">。</p>
-          <p><input :class="['ipt-active','indent']"><input :class="['ipt-active','longest']"></p>
+          <p>出卖人以<select><option v-for="item in optionsA">{{item}}</option></select>方式取得位于<input data-estl="0" :class="['ipt-active','normal']">、编号为<input data-estl="0">的地块的土地使用权。</p>
+          <p>土地使用证件号：<select><option v-for="item in optionsB">{{item}}</option></select>为<input data-estl="0">。</p>
+          <p>该地块土地面积为<input data-estl="0" :class="['ipt-active','normal']">㎡，规划用途为<input data-estl="0">，土地使用年限自<input data-estl="0" type="date" name="startdate" v-model="modeMsg.startdate" :class="[{'ipt-active':modeMsg.startdate},'spec-ipt','normal']">至<input data-estl="0" type="date" name="stopdate" v-model="modeMsg.stopdate" :class="[{'ipt-active':modeMsg.stopdate},'spec-ipt','normal']">。</p>
+          <p>出卖人经批准，在上述地块上建设商品房，名称类别<select><option v-for="item in optionsC">{{item}}</option></select><input data-estl="0" :class="['ipt-active','long']">。</p>
+          <p>建设工程规划许可证号为<input data-estl="0" :class="['ipt-active','normal']">，施工许可证号为<input data-estl="0" :class="['ipt-active','normal']">。</p>
+          <p><input data-estl="0" :class="['ipt-active','indent']"><input data-estl="0" :class="['ipt-active','longest']"></p>
         <h3>第二条 商品房销售依据</h3>
-          <p>出卖人购买的商品房为<select><option v-for="item in optionsD">{{item}}</option></select>商品房。预售商品房批准机关为<input :class="['ipt-active','long']">，商品房预售许可证号为<input :class="['ipt-active','long']">。</p>
-          <p><input :class="['ipt-active','indent']"><input :class="['ipt-active','longest']"></p>
+          <p>出卖人购买的商品房为<select><option v-for="item in optionsD">{{item}}</option></select>商品房。预售商品房批准机关为<input data-estl="0" :class="['ipt-active','long']">，商品房预售许可证号为<input data-estl="0" :class="['ipt-active','long']">。</p>
+          <p><input data-estl="0" :class="['ipt-active','indent']"><input data-estl="0" :class="['ipt-active','longest']"></p>
       </div> 
-      <div class="prt-btn noprint">
+<!--       <div class="prt-btn noprint">
         <div>
           <el-button type="primary" icon="document" title="预览/打印" class="norad" @click="printPage">&nbsp</el-button>
           <span>◆</span>
@@ -23,7 +23,7 @@
           <el-button type="success" icon="upload2" title="保存" class="norad" @click="savePage">&nbsp</el-button>
           <span>◆</span>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>

@@ -27,47 +27,31 @@ export default {
      * @AuthorHTL 王叁
      * @DateTime  2017-09-01T16:43:56+0800
      */
-    showCon: function(){
-      var ev = ev||window.event,
-          target = ev.target||ev.srcElement,//获取目标元素
-          rowPos = document.getElementById('showTab').dataset.num;
-          console.log(target.innerText)
-/*      console.log(this.houseData[rowPos])*/
-/*      debugger
-      let floor = target.innerText.split('-').map(function(value){
-        return parseInt(value);
-      })[0];
-      let h = this.houseData[rowPos][floor].find((val) => { val.change.doorNum === "target.innerText"});
-      console.log(h)*/
-      //只有存在自定义属性data-tag的元素才响应点击
-/*      if ( !target.dataset.tag ){
-        return
-      }
-      //获取目标元素在houseData数据中的位置
-      let pos = target.dataset.tag.split('-').map(function(value){
-        return parseInt(value);
-      });
+    showCon: function( ev = window.event ){
+      let target = ev.target||ev.srcElement,//获取目标元素
+          classList = target.classList,//获取目标元素的CSS类列表
+          room = target.innerHTML;//获取目标元素的户号
 
-      let [ floor, num ] = pos,
-          rowPos = document.getElementById('showTab').dataset.num,
-          finalCell = this.houseData[rowPos][floor][num];//获取当前点击的单元格对应的数据
-      //yzbz===1的目标跳转至合同编辑页面
-      if ( finalCell.ygbz === 1 ){
-        this.$confirm(`此操作将为您跳转至${finalCell.change.doorNum}号合同编辑页面, 是否继续?`, '提示', {
+      if ( classList.contains("floor") ) {//目标元素是楼层或说明，则无操作
+        return
+      } 
+
+      if ( classList.contains("unbook") ){//目标元素是可登记的房屋，则跳转至合同编辑页面
+        this.$confirm(`此操作将为您跳转至${room}号合同编辑页面, 是否继续?`, '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'info'
         }).then(() => {
           this.$router.push( { path:'/creatMode'} )
         }).catch(() => {});
-      } else {
+      } else {//目标元素是不可登记的房屋，则弹出提示，不跳转
         this.$notify({
           title: '警告',
-          message: `${finalCell.change.doorNum}不参加此次登记`,
+          message: `${room}号不参加此次登记`,
           type: 'warning',
           duration: 2500
         });
-      };*/
+      }
     }
   },
 }

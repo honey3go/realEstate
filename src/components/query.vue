@@ -27,7 +27,10 @@ export default {
     return {
       house: null,
       isLoading:true,
-      houseReg: /\d+-\d+[A-X]*-\d+/g,//门牌号：2-1-1或1-12A-3
+      houseReg: {
+        door: /\d+-\d+[A-X]*-\d+/g,
+        normarl: /\d+[A-X]+/g
+      },//门牌号：2-1-1或1-12A-3
       houseData: {},
     }
   },
@@ -38,25 +41,26 @@ export default {
     changeHouse: function(house,reg){
       let totalFloor = parseInt(house[0].zcs),//总楼层数
           finalData = new Array(totalFloor);//按楼层存户号
-
+      //1.格式化数据，使得门牌号为全数字
+      //2.对每户房屋，新增change属性，存放完整门牌号，单元号，楼号，户号
+      //3.并按楼层从低到高存为数组
+      
       for (let value of house){
+        //1.当前数据中楼层存在数字+英文格式，需要转换为纯数字格式
+        
         let doorArr = value.bdczl.match(reg),
-            doorNum = doorArr[doorArr.length-1],//门牌号：2-1-1
-            [unit, floor, num] = doorNum.split("-");
-        //数据中4层、13层、14层存为3A，12A，12C，此处转换回数字
-        switch (floor){
-          case "3A":
-          floor = "4";
-          break;
-          case "12A":
-          floor = "13";
-          break;
-          case "12C":
-          floor = "14";
-          break;
-        }   
+            doorNum = doorArr[doorArr.length-1],//取得门牌号2-1-1或1-3A-1
+            normalData = new Map([//完整门牌号标准化字典
+              ["3A","4"],["12A","13"],["12C","14"]
+            ]),
+            //标准化门牌号为纯数字
+            normarlDoorNum = doorNum.replace( this.houseReg.normarl, function(value){
+              return normalData.get(value)
+            }),
+            [unit, floor, num] = normarlDoorNum.split("-");
+
         //新增change属性，存放完整门牌号，单元号，楼号，户号
-        value.change = { doorNum, unit, floor, num }; 
+        value.change = { doorNum: normarlDoorNum, unit, floor, num }; 
         //按楼层从高到低排序
         if (typeof finalData[totalFloor - value.change.floor] === "undefined"){
           finalData[totalFloor - value.change.floor] = [];
@@ -68,15 +72,20 @@ export default {
       //对每层楼，按单元号、户号从小到大排序
       for (let flr of finalData){
         flr.sort(function(x,y){
+          let ux = x.change.unit,
+              uy = y.change.unit;
 
-          if (x.change.unit > y.change.unit){
+          if ( ux > uy ){
             return 1;
-          } else if (x.change.unit < y.change.unit ){
+          } else if ( ux < uy ){
             return -1;
           } else {
-            if (x.change.num > y.change.num){
+            let nx = x.change.num,
+                ny = y.change.num;
+
+            if ( nx > ny){
               return 1;
-            } else if (x.change.num < y.change.num){
+            } else if ( nx < ny ){
               return -1;
             } else {
               return 0;
@@ -101,7 +110,8 @@ export default {
               let { code, msg, data } = responseObj;
 
               if ( code === "200" && data.length > 0) {
-               this.houseData[row.NUM] = this.changeHouse(data,this.houseReg);
+
+               this.houseData[row.NUM] = this.changeHouse(data,this.houseReg.door);
               } else {
                 alert("没有对应数据！"+code)
               };

@@ -23,10 +23,10 @@
         <el-col :xs="0" :sm="0" :md="0" :lg="1" class="page noprint"></el-col>
         <el-col :xs="24" :sm="24" :md="24" :lg="22" class="page print">
           <el-row class="tac leftBar">
-            <el-col id="left-warp"  :sm="4" :md="4" :lg="4" class="noprint">
+            <el-col id="left-warp" :sm="4" :md="4" :lg="4" class="noprint">
               <leftNav></leftNav>
             </el-col>
-            <el-col id="main-warp"  :sm="20" :md="20" :lg="20" class="page print">
+            <el-col id="main-warp" :sm="20" :md="20" :lg="20" class="page print">
               <!-- <keep-alive> -->
               <router-view class="page print" :userBd="user"></router-view>
               <!-- </keep-alive> -->
@@ -111,7 +111,10 @@ export default {
       width: 64px;
     }
     #main-warp{
-      width: 92%;
+      width: 296px;
+    }
+    .app-hide,.mode-btns span{
+      display: none;
     }
 }
 
