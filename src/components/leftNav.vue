@@ -9,8 +9,8 @@
         <i class="el-icon-menu"></i>
         <span slot="title">合同管理</span>
       </template>
-      <el-menu-item index="2-1">查看所有</el-menu-item>
-      <el-menu-item index="2-2">新建合同</el-menu-item>
+      <el-menu-item index="contactList">查看所有</el-menu-item>
+      <el-menu-item index="creatContact">新建合同</el-menu-item>
     </el-submenu>
     <el-menu-item index="3">
       <i class="el-icon-star-on"></i>
@@ -18,7 +18,7 @@
     </el-menu-item>
     <el-menu-item index="query">
       <i class="el-icon-information"></i>
-      <span slot="title">查询统计</span>
+      <span slot="title">楼盘统计</span>
     </el-menu-item>
     <el-menu-item index="5">
       <i class="el-icon-document"></i>

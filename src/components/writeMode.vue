@@ -28,7 +28,7 @@
         <h3>地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址：<input :class="['ipt-active','longer']" data-estl="0"></h3>
         <h3>邮政编码：<input :class="['ipt-active','normal']" data-estl="0">联系电话：<input :class="['ipt-active','normal']" data-estl="0"></h3>
       </div> 
-      <div class="prt-btn noprint">
+      <div class="prt-btn noprint" v-if="isPrint">
         <div>
           <el-button type="primary" icon="document" title="预览/打印" class="norad" @click="printPage">&nbsp</el-button>
           <span>◆</span>
@@ -56,7 +56,9 @@ export default {
         date: "",
         name: "",
       },
-      
+      isUpdate: typeof this.$route.params.update!=="undefined",
+      updateTime:null,
+      isPrint: typeof this.$route.params.readonly==="undefined"||this.$route.params.readonly === 0,
       normalIpt:["注册地址：","营业执照注册号：","企业资质证书号：","法定代表人：","联系电话："]
     }
   },
@@ -66,51 +68,113 @@ export default {
       window.print();
     },
     savePage:function(){
+      
       let  necessaries = Object.values(this.modeMsg).every(function(item){
         return item !== '';
       });
 
-      if ( necessaries ){
-        let url = `${systemParam.serviceAddress}${systemParam.postMode}`,
-            param = { 
-                      developers: `${this.user.name}`,
-                      jsonpar: JSON.stringify(this.modeMsgAuto)
-                    };
-
-        this.$http.post( url, param )
-          .then(response =>{
-              let { code, msg, data } = string2Obj( response.data );
-
-              if ( code === "200" ){
-                this.$alert('保存成功！', '消息', {
-                confirmButtonText: '确定',
-                type: 'success',
-                callback: action => {
-                  this.$router.push({path:'/modeMng'});
-                }
-              });
-            }
-          })
-          .catch(response => {
-            console.log(response)
-          });
-      } else {
+      if ( !necessaries ){
         this.$alert('您还有必填项未填写，无法保存', '警告', {
           confirmButtonText: '确定',
           type: 'error',
           callback: action => {}
         });
+
+        return
+      } 
+
+      let url,param;
+      if ( this.isUpdate ){
+        this.updateTime = new Date().toLocaleDateString().replace(/\//g,"-");
+            url = `${systemParam.serviceAddress}${systemParam.updateMode}`,
+            param = { 
+              id: `${this.$route.params.id}`,
+              jsonpar: JSON.stringify(this.modeUpdateData)
+            };
+      } else {
+            url = `${systemParam.serviceAddress}${systemParam.postMode}`,
+            param = { 
+              developers: `${this.user?this.user.name:this.$route.params.user}`,
+              jsonpar: JSON.stringify(this.modeMsgAuto)
+            };
       };
+
+      this.$http.post( url, param )
+        .then(response =>{
+            let { code, msg, data } = string2Obj( response.data );
+
+            if ( code === "200" ){
+              this.$alert('保存成功！', '消息', {
+              confirmButtonText: '确定',
+              type: 'success',
+              callback: action => {
+                //this.$router.push({path:'/modeMng'});
+              }
+            });
+          }
+        })
+        .catch(response => {
+          console.log(response)
+        });
+    },
+  },
+  created:function(){
+    if ( typeof this.$route.params.id === "undefined"){
+      return
+    }
+
+    this.$http.get(`${systemParam.serviceAddress}${systemParam.getMode}${this.$route.params.id}`)
+    .then(response => {
+      let responseObj = string2Obj(response.data);
+      console.log("mode")
+
+      if (responseObj!==null){
+        let { code, msg, data } = responseObj;
+
+        if ( code === "200" && data.length > 0) {
+          console.log(data)
+         let { date,modeName,name,more } = data[0];
+         
+         this.modeMsg= { date,modeName,name,more };
+
+        } else {
+          alert("没有对应数据！"+code)
+        };
+      } else {
+        alert("网络或服务器错误")
+      };
+    })
+    .catch(response => {
+      console.log(response)
+    });
+  },
+  mounted:function(){
+    let inputs = Array.from( document.getElementsByTagName("input") );
+
+    if ( this.$route.params.readonly === 1){
+      for ( let ipt of inputs ){
+        ipt.readOnly = true;
+      }
+    } else if( this.$route.params.readonly === 0) {
+      for ( let ipt of inputs ){
+        if ( ipt.dataset.estl === "1"){
+            ipt.readOnly = true;
+        } 
+      }
     }
   },
   computed:{
     modeMsgAuto: function(){
       let { modeName, more, date, name } = this.modeMsg,
           page = 1;
-      return { modeName, more, date, name, page, lastEditDate:date, lastEditName:name, user:this.user.name };
-    }
+      return { modeName, more, date, name, page, lastEditDate:date, lastEditName:name, user:this.user?this.user.name:this.$route.params.user };
+    },
+    modeUpdateData:function(){
+      let { modeName, more, date, name } = this.modeMsg,
+          page = 1;
+      return { modeName, more, date, name, page, lastEditDate:this.updateTime, lastEditName:name, user:this.user?this.user.name:this.$route.params.user };
+    },
   },
-
 }
 </script>
 

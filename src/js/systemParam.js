@@ -16,4 +16,5 @@ export default {
 	getModeList:"/getCBmodeList?developers=",
 	postMode: "/modesubmit",
 	getMode: "/getCBModeItem?id=",
+	updateMode:"/modeupdate"
 }

@@ -4,7 +4,7 @@
       <el-table :data="house" height="100%" max-height="100%" border style="width: 100%;height:100%;" @expand="showPic" >
         <housePic :houseData="houseData"></housePic>
         <el-table-column prop="address" label="楼盘地址" min-width="235"></el-table-column>
-        <el-table-column prop="NUM" label="不动产单元号" min-width="235"></el-table-column>
+        <el-table-column prop="NUM" label="自然幢号" min-width="235"></el-table-column>
         <el-table-column prop="tnum" label="未登记户数"></el-table-column>
       </el-table>
     </div>

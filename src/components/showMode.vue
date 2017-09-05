@@ -1,7 +1,7 @@
 <template>
   <div class="showMode">
-    <writeMode class="changeHeight"></writeMode>
-    <fourthPage class="changeHeight"></fourthPage>
+    <writeMode class="changeHeight" v-if="modeParams.id"></writeMode>
+    <fourthPage class="changeHeight" v-if="modeParams.id"></fourthPage>
   </div>
 </template>
 
@@ -19,36 +19,11 @@ export default {
   },
   data () {
     return {
-      //readonly: false,
       modeParams: this.$route.params,
-      modeContent: null,
     }
   },
   methods:{
 
-  },
-  created:function(){
-    this.$http.get(`${systemParam.serviceAddress}${systemParam.getMode}${this.modeParams.id}`)
-    .then(response => {
-      let responseObj = string2Obj(response.data);
-      console.log("mode")
-
-      if (responseObj!==null){
-        let { code, msg, data } = responseObj;
-
-        if ( code === "200" && data.length > 0) {
-         this.modeContent = data;
-         console.log(data)
-        } else {
-          alert("没有对应数据！"+code)
-        };
-      } else {
-        alert("网络或服务器错误")
-      };
-    })
-    .catch(response => {
-      console.log(response)
-    });
   },
   mounted:function(){
     let inputs = Array.from( document.getElementsByTagName("input") );
@@ -64,13 +39,7 @@ export default {
         } 
       }
     }
-
   },
-  computed:{
-/*    readonly: function(){
-      return this.modeId.id === "undefined"?
-    }*/
-  }
 }
 </script>
 

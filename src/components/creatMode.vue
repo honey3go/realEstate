@@ -82,7 +82,7 @@ export default {
       creatId:""
     }
   },
-  props:['userBd'],
+  props:['userBd','modeID'],
   methods: {
     getCheckedNodes(obj) {
       if (obj.path){
@@ -90,6 +90,7 @@ export default {
       }
     },
   },
+
 }
 </script>
 

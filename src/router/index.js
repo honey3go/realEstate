@@ -7,6 +7,8 @@ import query from '@/components/query'
 import fourthPage from '@/components/fourthPage'
 import home from '@/components/home'
 import showMode from '@/components/showMode'
+import contactList from '@/components/contactList'
+import creatContact from '@/components/creatContact'
 
 Vue.use(Router)
 
@@ -24,9 +26,19 @@ export default new Router({
       component: modeList
     },
     {
+      path: '/creatContact',
+      name: 'creatContact',
+      component: creatContact
+    },
+    {
       path: '/showMode',
       name: 'showMode',//别名，用于隐藏传输的模板id
       component: showMode,
+    },
+    {
+      path: '/contactList',
+      name: 'contactList',
+      component: contactList,
     },
     {
       path: '/creatMode',
@@ -36,7 +48,7 @@ export default new Router({
         { path: '/', component: writeMode},
         { path: 'p1', },
       	{ path: 'p2', },
-      	{ path: 'p3', component: writeMode },
+      	{ path: 'p3',name:"p3", component: writeMode },
       	{ path: 'p4', component: fourthPage },
       	{ path: 'p5', },
       	{ path: 'p6', },

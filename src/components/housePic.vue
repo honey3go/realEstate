@@ -42,7 +42,7 @@ export default {
           cancelButtonText: '取消',
           type: 'info'
         }).then(() => {
-          this.$router.push( { path:'/creatMode'} )
+          this.$router.push( { path:'/creatContact'} )
         }).catch(() => {});
       } else {//目标元素是不可登记的房屋，则弹出提示，不跳转
         this.$notify({

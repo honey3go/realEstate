@@ -15,9 +15,9 @@
     </div>
     <div class="mode-btns">
       <el-button type="primary" icon="information" @click="viewMode">查看</el-button>
-      <el-button type="primary" icon="plus" @click="creatNewMode">新建</el-button>
-      <el-button type="primary" icon="edit" @click="modifyMode">修改</el-button>
-      <el-button type="primary" icon="delete" @click="deleteMode">删除</el-button>
+      <el-button type="primary" icon="plus" v-if="!isCrtCon" @click="creatNewMode">新建</el-button>
+      <el-button type="primary" icon="edit" v-if="!isCrtCon" @click="modifyMode">修改</el-button>
+      <el-button type="primary" icon="delete" v-if="!isCrtCon" @click="deleteMode">删除</el-button>
       <el-button type="primary" icon="document" @click="editContact">填写合同</el-button>
     </div>
   </div>
@@ -33,7 +33,8 @@ export default {
   data () {
     return {
       tableData: [],//用于存放全部用户的全部模板数据
-      selectedRows:[]
+      selectedRows:[],//用于存放当前表格选择集
+      isCrtCon:false,
     }
   },
   methods:{
@@ -44,7 +45,6 @@ export default {
      * @param     {object}                 selection [当前选中的所有对象]
      */
     handleRowChange: function(selection) {
-      console.log(selection,'selection')
       this.selectedRows = selection; 
     },
     /**
@@ -66,7 +66,7 @@ export default {
           callback: action => {}
         });
       } else {//此处路由跳转使用别名，地址栏中隐藏路由参数：id:模板ID，readonly:是否只读
-        this.$router.push({name: 'showMode',params:{ id: this.selectedRows[0].id,readonly:1}});
+        this.$router.push({name: 'showMode',params:{ id: this.selectedRows[0].id,readonly:1,user:this.userBd.name}});
       };
     },
     /**
@@ -96,7 +96,7 @@ export default {
           callback: action => {}
         });
       } else {
-        this.$router.push({path: '/creatMode'});
+        this.$router.push({name: "p3",params:{id:this.selectedRows[0].id,user:this.userBd.name,update:1,readonly:0}});
       }; 
     },
     /**
@@ -168,7 +168,7 @@ export default {
           callback: action => {}
         });
       } else {//此处路由跳转使用别名，地址栏中隐藏路由参数：id:模板ID，readonly:是否只读
-        this.$router.push({name: 'showMode',params:{ id: this.selectedRows[0].id,readonly:0}});
+        this.$router.push({name: 'showMode',params:{ id: this.selectedRows[0].id,readonly:0,user:this.userBd.name}});
       };
     }
   },
@@ -198,6 +198,11 @@ export default {
     .catch(response => {
       console.log(response)
     });
+
+    if ( this.$route.params.isCrtCon === 1 ){
+      this.isCrtCon = true;
+    }
+    console.log(this.isCrtCon)
   }
 }
 </script>

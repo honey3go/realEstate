@@ -1,20 +1,26 @@
 <template>
   <div id="app" class="print">
     <div id="login" v-if="!user">
-      <div class="logo">
-        <h1>商品房网上备案系统</h1><img src="./assets/background.jpg">
+      <div id="main" class="main" >
+        <h1>商品房网上备案系统</h1>
+        <div class="wrapDiv" v-model="input_msg">
+          <div class="inputDiv">
+            <label>用户名</label><input type="text" v-model="input_msg.admin" class="inputBtn">
+          </div>
+          <div class="inputDiv">
+            <label>密&nbsp;&nbsp;&nbsp;&nbsp;码</label><input type="password" v-model="input_msg.pwd" class="inputBtn">
+          </div>
+          <div class="inputDiv">
+            <button type="submit" class="loginBtn" v-on:click="show">登&nbsp;&nbsp;录</button>
+            <button type="submit" class="loginBtn cancel">取&nbsp;&nbsp;消</button>
+          </div>
+        </div>
       </div>
-      <div class="inputDiv" v-model="input_msg">
-          <label class="labelTxt">用户名</label>
-          <input type="text" v-model="input_msg.admin" id="btn_admin" class="inputBtn">
-          <label class="labelTxt">密码</label>
-          <input type="password" v-model="input_msg.pwd" id="btn_pwd" class="inputBtn">
-          <button type="submit" class="loginBtn" @click="show">登 录</button>
-      </div>
-      <div class="footer">
+      <div id="footer" class="footer">
         CopyRight&nbsp;©&nbsp;2017&nbsp;辽宁万朋测绘地理信息科技开发有限公司
       </div>
     </div>
+
     <div class="content" v-else>
       <nav class="noprint">
         <h4 id="username">{{user.name}}</h4>
@@ -53,7 +59,7 @@ export default {
           admin:'',//用户名
           pwd:'' //密码
         },
-        user:{ name : '辽宁龙田置业有限责任公司'},//用户名，用于传递给子组件
+        user: null,//{name:'辽宁龙田置业有限责任公司'},//用户名，用于传递给子组件
       };
   },
   components:{
@@ -106,6 +112,12 @@ export default {
   overflow-y:visible !important;
  }
 } 
+//解决绝对定位与手机软键盘冲突：陈新华
+@media screen and (max-height: 400px){
+  footer,#footer{
+    display: none;
+  }
+}
 @media screen and (max-width: 1100px) {
     #left-warp{
       width: 64px;
@@ -116,6 +128,39 @@ export default {
     .app-hide,.mode-btns span{
       display: none;
     }
+     //登录页
+    #login{
+        display: block;
+        background: url('/static/img/bg_App.jpg') no-repeat;//绝对路径
+        background-size: 100% 100%;  
+      #main {
+        border-top: 200px solid transparent;
+        background: none;
+        h1{
+          color: #7E4543;
+          background: none;
+        }
+        .wrapDiv{
+          @btn_height:30px;
+          border: none;
+          background: none;
+            .inputDiv{
+              margin: 30px auto;
+              width: 100%;
+              .inputBtn{
+                margin-left: 10px;
+                width: 62%;
+                height: @btn_height;
+              }
+              .loginBtn{
+                height: @btn_height+4;
+                width: 28%;
+                font-size: inherit;
+              }
+            }
+        }
+      }
+    }//login
 }
 
 @mainGrey:rgb(238,241,246);
@@ -172,55 +217,66 @@ footer {
     background-color: rgb(250,250,250);
   }
 }
+// 登录页
 #login{
-  position: relative;
   height: 100%;
-}
-.logo{
-  width:100%;
-  height:20%;
-  padding-top:5%;
-  position: relative;
-  z-index: -1;
-}
-.logo img{
-  width: 100%;
-  height: 300px; /* 百分比 */
-}
-.logo h1{
-  position: absolute;
-  top: 33%;
-  left: 10%;
-  color: #7EBDE7; 
-}
-.inputDiv{
-  height:10%;
-  line-height: 2em;
-  font-size: 0.875em;
-  padding-left: 20px;
-  z-index:100;
-}
-.labelTxt{
-  color: #27486B;
-}
-.inputBtn{
-  color: #1f2d3d;
-  border-radius: 4px;/* 百分比 */
-  border: 1px solid #bfcbd9;
-  height: 20px;
-}
-.loginBtn{
-  height:25px;/* 百分比 */
-  width:55px;
-  background:#1370BD;
-  color:#fff;
-  border:1px solid #3B8BD0;
-  border-radius:3px;
-}
-.footer{
-  color:#ccc;
-  font-size:0.5em;
-  text-align:center;
-  margin-top:400px;/* 百分比 */
+  .main{
+    height: 35%;
+    min-height: 300px;
+    padding: 10px 0;
+    background: url('/static/img/bg_PC.jpg') no-repeat;
+    background-size: 100% 100%;//以父元素的百分比来设置背景图像的宽度和高度。
+    border-top:150px solid transparent;
+    h1{
+      color: #7E4543;
+      background: url('/static/img/logo.png') no-repeat;
+      background-size: 100% 100%;
+    }
+    .wrapDiv{
+      @bg_color: #4E967F;
+      @btn_height: 24px;
+      @color: #1f2d3d;
+      .border(@px:3px){
+        border-radius: @px;
+        -webkit-border-radius: @px;
+        -moz-border-radius: @px;
+        border:1px solid @bg_color;
+      }
+
+      height: 58%;
+      width: 24%;
+      min-width: 360px;
+      background: #fff;
+      margin: 0 auto;
+      .border(5px);border:10px solid rgba(118,133,194,0.25);
+
+      .inputDiv{
+        margin: 20px auto;
+        .inputBtn{
+          height: @btn_height;
+          margin-left: 10px;
+          .border;border-color: #bfcbd9;
+        }
+        .loginBtn{
+          width:76px;
+          height: @btn_height + 4;
+          background:@bg_color;color:#fff;
+          .border;
+          margin-left:56px;
+        }
+        .cancel{
+          color:@color;
+          background:#F5F3F3;margin-left:16px;
+        }
+      }
+    }
+  }
+  .footer{
+    width: 100%;//绝对定位后，宽度设置100%，文字居中
+    position: absolute;
+    bottom: 25px;
+    color: #ccc;
+    font-size: 0.5em;
+  }
 }
 </style>
