@@ -10,7 +10,7 @@ let readOnly = {
 };
 export { readOnly }
 export default { 
-	serviceAddress: "http://192.168.1.231:89/Appapi.asmx",
+	serviceAddress: "http://192.168.1.237:89/Appapi.asmx",
 	getBuilding: "/getBuilding?developers=",
 	getHouse: "/getHouse?num=",
 	getModeList:"/getCBmodeList?developers=",

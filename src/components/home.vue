@@ -1,6 +1,6 @@
 <template>
   <div id="home">
-    <h3>{{`${userBd.name}，欢迎您！`}}</h3>
+    <h3>{{`${$store.state.user.name}，欢迎您！`}}</h3>
     <h1>今天是
       <span>    {{`${nowDate.getFullYear()}年${nowDate.getMonth()+1}月${nowDate.getDate()}日 星期${changNum(nowDate.getDay())}`}}</span>
     </h1>
@@ -12,7 +12,6 @@ import { string2Obj } from '../js/generalMethods.js'
 
 export default {
   name: 'modeList',
-  props:['userBd'],
   data () {
     return {
       nowDate: new Date(),

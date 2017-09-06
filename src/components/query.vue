@@ -2,7 +2,25 @@
   <div id="modelist">
     <div class="mode-list" v-if="house">
       <el-table :data="house" height="100%" max-height="100%" border style="width: 100%;height:100%;" @expand="showPic" >
-        <housePic :houseData="houseData"></housePic>
+        <el-table-column type="expand" width="50">
+          <template scope="scope" id="22">
+            <div v-if="!houseData[scope.row.NUM]" class="loading">
+              <i class="el-icon-loading"></i>
+              查询中，请稍后
+            </div>
+            <table id="showTab" v-else class="housePic" @click="showCon" :data-num="scope.row.NUM">
+              <tr>
+                <th class="floor">说明</th>
+                <th class="floor" id="en1" colspan="2">灰色：不可登记</th>
+                <th class="floor" id="en2" colspan="2">绿色：可登记</th>
+              </tr> 
+              <tr v-for="(item,index) in houseData[scope.row.NUM]">
+                <td class="floor" disabled>{{`${houseData[scope.row.NUM].length - index}楼`}}</td>
+                <td v-for="(house,num) in item" :class="{'unbook':house.ygbz==1}" :data-tag="index+'-'+num">{{house.change.doorNum}}</td>
+              </tr>
+            </table>
+          </template>
+        </el-table-column>
         <el-table-column prop="address" label="楼盘地址" min-width="235"></el-table-column>
         <el-table-column prop="NUM" label="自然幢号" min-width="235"></el-table-column>
         <el-table-column prop="tnum" label="未登记户数"></el-table-column>
@@ -18,11 +36,9 @@
 <script>
 import { string2Obj } from '../js/generalMethods.js'
 import systemParam from '../js/systemParam.js'
-import housePic from './housePic'
 
 export default {
   name: 'query',
-  props:['userBd'],
   data () {
     return {
       house: null,
@@ -34,9 +50,6 @@ export default {
       houseData: {},
     }
   },
-  components:{
-    housePic
-  },
   methods:{
     changeHouse: function(house,reg){
       let totalFloor = parseInt(house[0].zcs),//总楼层数
@@ -44,7 +57,7 @@ export default {
       //1.格式化数据，使得门牌号为全数字
       //2.对每户房屋，新增change属性，存放完整门牌号，单元号，楼号，户号
       //3.并按楼层从低到高存为数组
-      
+      debugger
       for (let value of house){
         //1.当前数据中楼层存在数字+英文格式，需要转换为纯数字格式
         
@@ -110,8 +123,9 @@ export default {
               let { code, msg, data } = responseObj;
 
               if ( code === "200" && data.length > 0) {
-
-               this.houseData[row.NUM] = this.changeHouse(data,this.houseReg.door);
+                //这里使用this.$set，不然houseData非响应式，不会渲染DOM
+                
+                this.$set(this.houseData, row.NUM, this.changeHouse(data,this.houseReg.door));
               } else {
                 alert("没有对应数据！"+code)
               };
@@ -125,10 +139,40 @@ export default {
           });
       }
     },
+    /**
+     * [showCon 楼盘表点击事件代理]
+     * @AuthorHTL 王叁
+     * @DateTime  2017-09-01T16:43:56+0800
+     */
+    showCon: function( ev = window.event ){
+      let target = ev.target||ev.srcElement,//获取目标元素
+          classList = target.classList,//获取目标元素的CSS类列表
+          room = target.innerHTML;//获取目标元素的户号
+
+      if ( classList.contains("floor") ) {//目标元素是楼层或说明，则无操作
+        return
+      } 
+
+      if ( classList.contains("unbook") ){//目标元素是可登记的房屋，则跳转至合同编辑页面
+        this.$confirm(`此操作将为您跳转至${room}号合同编辑页面, 是否继续?`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'info'
+        }).then(() => {
+          this.$router.push( { path:'/creatContact'} )
+        }).catch(() => {});
+      } else {//目标元素是不可登记的房屋，则弹出提示，不跳转
+        this.$notify({
+          title: '警告',
+          message: `${room}号不参加此次登记`,
+          type: 'warning',
+          duration: 2500
+        });
+      }
+    }
   },
   created:function(){
-    console.log(this.userBd,"userBd");
-    this.$http.get(`${systemParam.serviceAddress}${systemParam.getBuilding}${this.userBd.name}`)
+    this.$http.get(`${systemParam.serviceAddress}${systemParam.getBuilding}${this.$store.state.user.name}`)//兴城市富邦房地产开发有限公司
       .then(response => {
         let responseObj = string2Obj(response.data);
 
@@ -139,7 +183,7 @@ export default {
           if ( code === "200" && data.length > 0) {
 
             for (let item of data){
-              item.inc = this.userBd.name;
+              item.inc = this.$store.state.user.name;
             }
             this.house = data;
             console.log(this.house,"house")
@@ -154,21 +198,10 @@ export default {
         console.log(response)
       });
   },
-  watch:{
-    userBd:function(newVal){
-      console.log('23')
-    },
-    houseData:function(){
-      console.log('houseDatachange')
-    }
-  }
 }
 </script>
 
 <style lang='less'>
-.picshow{
-
-}
 .house1{
   background-color: #F7BA2A;
 }

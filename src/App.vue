@@ -34,7 +34,7 @@
             </el-col>
             <el-col id="main-warp" :sm="20" :md="20" :lg="20" class="page print">
               <!-- <keep-alive> -->
-              <router-view class="page print" :userBd="user"></router-view>
+              <router-view class="page print"></router-view>
               <!-- </keep-alive> -->
             </el-col>
           </el-row>
@@ -47,6 +47,7 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 import leftNav from './components/leftNav'
 import systemParam from './js/systemParam.js'
 import { string2Obj } from './js/generalMethods.js'
@@ -59,7 +60,7 @@ export default {
           admin:'',//用户名
           pwd:'' //密码
         },
-        user: null,//{name:'辽宁龙田置业有限责任公司'},//用户名，用于传递给子组件
+        user: /*null,*/{name:'辽宁龙田置业有限责任公司'},//用户名，用于传递给子组件
       };
   },
   components:{
@@ -97,7 +98,14 @@ export default {
           callback: action => {}
         });
       };
-    }
+    },
+    ...mapMutations([
+        'initLogin' // 映射 this.initLogin() 为 this.$store.commit('initLogin')
+      ]),
+  },
+  mounted(){
+    this.initLogin({name:"辽宁龙田置业有限责任公司",password:"000000"});
+    console.log(this.$store.state.user.name)
   }
 }
 </script>

@@ -44,7 +44,7 @@ export default {
     select: function(index){
       console.log(index)
       if (index){
-        this.$router.push(`/${index}`);
+        this.$router.push({path:`/${index}`});
       }
     }
   }

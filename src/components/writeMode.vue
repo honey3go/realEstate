@@ -62,7 +62,6 @@ export default {
       normalIpt:["注册地址：","营业执照注册号：","企业资质证书号：","法定代表人：","联系电话："]
     }
   },
-  props:['user'],
   methods:{
     printPage:function(){
       window.print();
@@ -94,7 +93,7 @@ export default {
       } else {
             url = `${systemParam.serviceAddress}${systemParam.postMode}`,
             param = { 
-              developers: `${this.user?this.user.name:this.$route.params.user}`,
+              developers: `${this.$store.state.user}`,
               jsonpar: JSON.stringify(this.modeMsgAuto)
             };
       };
@@ -167,12 +166,12 @@ export default {
     modeMsgAuto: function(){
       let { modeName, more, date, name } = this.modeMsg,
           page = 1;
-      return { modeName, more, date, name, page, lastEditDate:date, lastEditName:name, user:this.user?this.user.name:this.$route.params.user };
+      return { modeName, more, date, name, page, lastEditDate:date, lastEditName:name, user:this.$store.state.user};
     },
     modeUpdateData:function(){
       let { modeName, more, date, name } = this.modeMsg,
           page = 1;
-      return { modeName, more, date, name, page, lastEditDate:this.updateTime, lastEditName:name, user:this.user?this.user.name:this.$route.params.user };
+      return { modeName, more, date, name, page, lastEditDate:this.updateTime, lastEditName:name, user:this.$store.state.user};
     },
   },
 }
