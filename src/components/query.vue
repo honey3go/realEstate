@@ -1,5 +1,5 @@
 <template>
-  <div id="modelist">
+  <div id="houseQuery">
     <div class="mode-list" v-if="house">
       <el-table :data="house" height="100%" max-height="100%" border style="width: 100%;height:100%;" @expand="showPic" >
         <el-table-column type="expand" width="50">
@@ -202,6 +202,7 @@ export default {
 </script>
 
 <style lang='less'>
+
 .house1{
   background-color: #F7BA2A;
 }
@@ -236,7 +237,12 @@ export default {
   }
 
 }
-#modelist{
+
+    th div{
+      background-color: #20A0FF;
+      color: #fff;
+    }
+#houseQuery{
   position: relative;
   padding: 0 10px;
 

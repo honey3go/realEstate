@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { string2Obj } from '../js/generalMethods.js'
+import { string2Obj, cheakSelectLength } from '../js/generalMethods.js'
 import systemParam from '../js/systemParam.js'
 
 export default {
@@ -52,21 +52,9 @@ export default {
      * @DateTime  2017-09-04T16:42:10+0800
      */
     viewMode: function(){
-      if ( this.selectedRows.length === 0 ){//选择集为空时不能查看
-        this.$alert('请选择一个模板进行查看！', '警告', {
-          confirmButtonText: '确定',
-          type: 'warning',
-          callback: action => {}//$alert, $confirm 
-        });
-      } else if ( this.selectedRows.length >= 2 ){//选择集中有多个对象时不能查看
-        this.$alert('只能选择一个模板进行查看！', '警告', {
-          confirmButtonText: '确定',
-          type: 'warning',
-          callback: action => {}
-        });
-      } else {//此处路由跳转使用别名，地址栏中隐藏路由参数：id:模板ID，readonly:是否只读
+      if ( cheakSelectLength(this.selectedRows) ){
         this.$router.push({name: 'showMode',params:{ id: this.selectedRows[0].id,readonly:1}});
-      };
+      }
     },
     /**
      * [creatNewMode 新建按钮点击事件，跳转到creatMode页面]
@@ -82,21 +70,9 @@ export default {
      * @DateTime  2017-08-30T12:01:26+0800
      */
     modifyMode: function(){
-      if ( this.selectedRows.length === 0 ){//选择集为空时不能修改
-        this.$alert('请选择一个模板进行修改！', '警告', {
-          confirmButtonText: '确定',
-          type: 'warning',
-          callback: action => {}//$alert, $confirm 
-        });
-      } else if ( this.selectedRows.length >= 2 ){//选择集中有多个对象时不能修改
-        this.$alert('只能选择一个模板进行修改！', '警告', {
-          confirmButtonText: '确定',
-          type: 'warning',
-          callback: action => {}
-        });
-      } else {
+      if ( cheakSelectLength(this.selectedRows) ){
         this.$router.push({name: "p3",params:{id:this.selectedRows[0].id,update:1,readonly:0}});
-      }; 
+      }
     },
     /**
      * [deleteMode 删除按钮点击事件，支持一或多项进行删除]
@@ -117,29 +93,35 @@ export default {
           type: 'warning'
         }).then(() => {
           //删除选中项  
-          let beforeLen =  this.tableData.length;
-              
-          for(let i = 0 ; i < this.tableData.length; i++){
-            for(let j = 0 ; j < this.selectedRows.length; j++){
-                if(this.tableData[i] == this.selectedRows[j]){
-                  this.tableData.splice(i,1);
-                }
-             }
-          }
+          let delIndex = [];
 
-          let afterLen = this.tableData.length;
-          //判断删除的项数是否与选择集一致
-          if ( beforeLen - afterLen === this.selectedRows.length ){
-            this.$message({
-              type: 'success',
-              message: '删除成功!',
-            });
-          } else {
-            this.$message({
-              type: 'warning',
-              message: '删除失败!',
-            });
-          };
+          for (let item of this.selectedRows){
+            delIndex.push(item.id)
+          }
+          console.log(JSON.stringify({ delIndex }))
+          let url = `${systemParam.serviceAddress}${systemParam.updateMode}`,
+              param = {
+                        id: `${this.selectedRows[0].id}`,
+                        jsonpar: JSON.stringify({ delIndex })
+              };
+              debugger
+          this.$http.post( url, param )
+          .then(response =>{
+              let { code, msg, data } = string2Obj( response.data );
+
+              if ( code === "200" ){
+                this.$alert('删除成功！', '消息', {
+                confirmButtonText: '确定',
+                type: 'success',
+                callback: action => {
+                  //this.$router.push({path:'/modeMng'});
+                }
+              });
+            }
+          })
+          .catch(response => {
+            console.log(response)
+          });
         }).catch(() => {
           this.$message({
             type: 'info',
@@ -154,21 +136,10 @@ export default {
      * @DateTime  2017-09-04T16:44:53+0800
      */
     editContact:function(){
-      if ( this.selectedRows.length === 0 ){//选择集为空时不能填写
-        this.$alert('请选择一个模板填写合同！', '警告', {
-          confirmButtonText: '确定',
-          type: 'warning',
-          callback: action => {}//$alert, $confirm 
-        });
-      } else if ( this.selectedRows.length >= 2 ){//选择集中有多个对象时不能填写
-        this.$alert('只能选择一个模板填写合同！', '警告', {
-          confirmButtonText: '确定',
-          type: 'warning',
-          callback: action => {}
-        });
-      } else {//此处路由跳转使用别名，地址栏中隐藏路由参数：id:模板ID，readonly:是否只读
+      if ( cheakSelectLength(this.selectedRows) ){
+        //此处路由跳转使用别名，地址栏中隐藏路由参数：id:模板ID，readonly:是否只读
         this.$router.push({name: 'showMode',params:{ id: this.selectedRows[0].id,readonly:0}});
-      };
+      }
     }
   },
   computed:{

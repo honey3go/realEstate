@@ -52,7 +52,7 @@ export default {
     return {
       modeMsg:{
         modeName: "",
-        more: "无",
+        more: this.$store.state.user.name,
         date: "",
         name: "",
       },
@@ -166,7 +166,7 @@ export default {
     modeMsgAuto: function(){
       let { modeName, more, date, name } = this.modeMsg,
           page = 1;
-      return { modeName, more, date, name, page, lastEditDate:date, lastEditName:name, user:this.$store.state.user};
+      return { modeName, more, date, name,  page, lastEditDate:date, lastEditName:name, user:this.$store.state.user};
     },
     modeUpdateData:function(){
       let { modeName, more, date, name } = this.modeMsg,
