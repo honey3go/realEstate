@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import { mapState, mapGetters, mapMutations } from 'vuex'
 import { string2Obj, cheakSelectLength } from '../js/generalMethods.js'
 
 export default {
@@ -118,6 +119,7 @@ export default {
      * @DateTime  2017-09-07T16:42:50+0800
      */
     creatContact:function(){
+      this.changeDocStatus({methods:"creat",type:"contact"});
       this.$router.push({path:"/creatContact"});
     },
     /**
@@ -127,7 +129,8 @@ export default {
      */
     viewContact: function(){
      if ( cheakSelectLength(this.selectedRows) ){
-        this.$router.push({name: 'showMode',params:{ id: 44,readonly:1}});
+        this.changeDocStatus({methods:"readonly",type:"contact"});
+        this.$router.push({name: 'showMode',params:{ id: 44}});
      }
     },
     /**
@@ -137,9 +140,13 @@ export default {
      */
     modifyContact: function(){
       if ( cheakSelectLength(this.selectedRows) ){
+        this.changeDocStatus({methods:"update",type:"contact"});
         this.$router.push({name: 'showMode',params:{ id: 44,readonly:0}});
      }
     },
+    ...mapMutations([
+      'changeDocStatus' // 映射 this.changeDocStatus() 为 this.$store.commit('changeDocStatus')
+    ]),
   },
 }
 </script>

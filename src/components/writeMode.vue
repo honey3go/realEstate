@@ -28,7 +28,7 @@
         <h3>地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址：<input :class="['ipt-active','longer']" data-estl="0"></h3>
         <h3>邮政编码：<input :class="['ipt-active','normal']" data-estl="0">联系电话：<input :class="['ipt-active','normal']" data-estl="0"></h3>
       </div> 
-      <div class="prt-btn noprint" v-if="isPrint">
+      <div class="prt-btn noprint">
         <div>
           <el-button type="primary" icon="document" title="预览/打印" class="norad" @click="printPage">&nbsp</el-button>
           <span>◆</span>
@@ -43,6 +43,7 @@
 </template>
 
 <script>
+import { mapState, mapGetters, mapMutations } from 'vuex'
 import systemParam from '../js/systemParam.js'
 import { string2Obj } from '../js/generalMethods.js'
 
@@ -117,7 +118,16 @@ export default {
         });
     },
   },
+  computed:{
+    ...mapState([
+      'docData'
+    ]),
+    ...mapGetters([
+      'finalPatten'
+    ]),
+  },
   created:function(){
+
     if ( typeof this.$route.params.id === "undefined"){
       return
     }
@@ -148,7 +158,8 @@ export default {
     });
   },
   mounted:function(){
-    let inputs = Array.from( document.getElementsByTagName("input") );
+    console.log(this.docData,"conllllllllll")
+/*    let inputs = Array.from( document.getElementsByTagName("input") );
 
     if ( this.$route.params.readonly === 1){
       for ( let ipt of inputs ){
@@ -160,7 +171,7 @@ export default {
             ipt.readOnly = true;
         } 
       }
-    }
+    }*/
   },
   computed:{
     modeMsgAuto: function(){
@@ -173,6 +184,7 @@ export default {
           page = 1;
       return { modeName, more, date, name, page, lastEditDate:this.updateTime, lastEditName:name, user:this.$store.state.user};
     },
+
   },
 }
 </script>

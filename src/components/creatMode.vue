@@ -18,6 +18,8 @@
 </template>
 
 <script>
+import { mapState, mapGetters, mapMutations } from 'vuex'
+
 export default {
   name: 'creat-mode',
   data () {
@@ -84,13 +86,32 @@ export default {
   },
   props:['modeID'],
   methods: {
+    ...mapMutations([
+      'changeDocStatus'
+    ]),
     getCheckedNodes(obj) {
       if (obj.path){
         this.$router.push(`/creatMode/${obj.path}`);
       }
     },
   },
+  computed:{
+    ...mapState([
+      'docData'
+    ]),
+    ...mapGetters([
+      'finalPatten'
+    ]),
+  },
+  mounted(){
+    if ( this.docData.methods === "readonly" ){
+      let ipts = Array.from( document.getElementsByTagName("input") );
 
+      for ( let ipt of ipts ){
+        ipt.readOnly = true;
+      }
+    }
+  }
 }
 </script>
 

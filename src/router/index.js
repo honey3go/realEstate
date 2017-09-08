@@ -9,6 +9,7 @@ import home from '@/components/home'
 import showMode from '@/components/showMode'
 import contactList from '@/components/contactList'
 import creatContact from '@/components/creatContact'
+import userMng from '@/components/userMng'
 
 Vue.use(Router)
 
@@ -65,6 +66,11 @@ export default new Router({
       path: '/query',
       name: 'query',
       component: query
+    },
+    {
+      path: '/userMng',
+      name: 'userMng',
+      component: userMng
     },
   ]
 })

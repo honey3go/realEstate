@@ -20,7 +20,6 @@
         CopyRight&nbsp;©&nbsp;2017&nbsp;辽宁万朋测绘地理信息科技开发有限公司
       </div>
     </div>
-
     <div class="content" v-else>
       <nav class="noprint">
         <h4 id="username">{{user.name}}</h4>
@@ -47,7 +46,7 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 import leftNav from './components/leftNav'
 import systemParam from './js/systemParam.js'
 import { string2Obj } from './js/generalMethods.js'
@@ -60,7 +59,7 @@ export default {
           admin:'',//用户名
           pwd:'' //密码
         },
-        user: /*null,*/{name:'辽宁龙田置业有限责任公司'},//用户名，用于传递给子组件
+        //user: /*null,*/{name:'辽宁龙田置业有限责任公司'},//用户名，用于传递给子组件
       };
   },
   components:{
@@ -103,9 +102,13 @@ export default {
         'initLogin' // 映射 this.initLogin() 为 this.$store.commit('initLogin')
       ]),
   },
+  computed:{
+    ...mapState([
+      'user'
+    ]),
+  },
   mounted(){
     this.initLogin({name:"辽宁龙田置业有限责任公司",password:"000000"});
-    console.log(this.$store.state.user.name)
   }
 }
 </script>
@@ -169,6 +172,25 @@ export default {
         }
       }
     }//login
+    #userMng {
+      #inputForm1{
+        width: 95%;
+      }
+      #inputForm2{
+        width: 95%;
+      }
+      .indent{
+        text-indent: 4em;
+      }
+      div.step{
+        margin: 0 15%;
+      }
+      div.userMng-info {
+        width: 100%;
+        padding-left: 0;
+      }
+    }
+
 }
 
 @mainGrey:rgb(238,241,246);

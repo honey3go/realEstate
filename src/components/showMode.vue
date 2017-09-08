@@ -6,6 +6,7 @@
 </template>
 
 <script>
+import { mapState, mapGetters, mapMutations } from 'vuex'
 import { string2Obj } from '../js/generalMethods.js'
 import systemParam from '../js/systemParam.js'
 import writeMode from './writeMode'
@@ -25,10 +26,20 @@ export default {
   methods:{
 
   },
+  computed:{
+    ...mapState([
+      'docData'
+    ]),
+  },
   mounted:function(){
-    let inputs = Array.from( document.getElementsByTagName("input") );
+    if ( this.docData.methods === "readonly" ){
+      let ipts = Array.from( document.getElementsByTagName("input") );
 
-    if ( this.modeParams.readonly === 1){
+      for ( let ipt of ipts ){
+        ipt.readOnly = true;
+      }
+    }
+/*    if ( this.modeParams.readonly === 1){
       for ( let ipt of inputs ){
         ipt.readOnly = true;
       }
@@ -38,7 +49,7 @@ export default {
             ipt.readOnly = true;
         } 
       }
-    }
+    }*/
   },
 }
 </script>

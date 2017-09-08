@@ -15,21 +15,21 @@
     </div>
     <div class="mode-btns">
       <el-button type="primary" icon="information" @click="viewMode">查看</el-button>
-      <el-button type="primary" icon="plus" v-if="btnShow" @click="creatNewMode">新建</el-button>
-      <el-button type="primary" icon="edit" v-if="btnShow" @click="modifyMode">修改</el-button>
-      <el-button type="primary" icon="delete" v-if="btnShow" @click="deleteMode">删除</el-button>
+      <el-button type="primary" icon="plus" v-if="docData.type==='mode'" @click="creatNewMode">新建</el-button>
+      <el-button type="primary" icon="edit" v-if="docData.type==='mode'" @click="modifyMode">修改</el-button>
+      <el-button type="primary" icon="delete" v-if="docData.type==='mode'" @click="deleteMode">删除</el-button>
       <el-button type="primary" icon="document" @click="editContact">填写合同</el-button>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState, mapGetters, mapMutations } from 'vuex'
 import { string2Obj, cheakSelectLength } from '../js/generalMethods.js'
 import systemParam from '../js/systemParam.js'
 
 export default {
   name: 'modeList',
-  props:['isCreat'],
   data () {
     return {
       tableData: [],//用于存放全部用户的全部模板数据
@@ -37,6 +37,9 @@ export default {
     }
   },
   methods:{
+    ...mapMutations([
+      'changeDocStatus' // 映射 this.changeDocStatus() 为 this.$store.commit('changeDocStatus')
+    ]),
     /**
      * [handleRowChange 表格复选框选择事件，将当前选中的所有行的内容保存到数组selectedRows中]
      * @AuthorHTL 陈新华
@@ -53,6 +56,7 @@ export default {
      */
     viewMode: function(){
       if ( cheakSelectLength(this.selectedRows) ){
+        this.changeDocStatus({methods:"readonly",type:"mode"});
         this.$router.push({name: 'showMode',params:{ id: this.selectedRows[0].id,readonly:1}});
       }
     },
@@ -62,6 +66,7 @@ export default {
      * @DateTime  2017-08-30T12:00:52+0800
      */
     creatNewMode: function(){
+      this.changeDocStatus({methods:"creat",type:"mode"});
       this.$router.push('/creatMode');
     },
     /**
@@ -71,6 +76,7 @@ export default {
      */
     modifyMode: function(){
       if ( cheakSelectLength(this.selectedRows) ){
+        this.changeDocStatus({methods:"update",type:"mode"});
         this.$router.push({name: "p3",params:{id:this.selectedRows[0].id,update:1,readonly:0}});
       }
     },
@@ -98,7 +104,7 @@ export default {
           for (let item of this.selectedRows){
             delIndex.push(item.id)
           }
-          console.log(JSON.stringify({ delIndex }))
+          
           let url = `${systemParam.serviceAddress}${systemParam.updateMode}`,
               param = {
                         id: `${this.selectedRows[0].id}`,
@@ -140,12 +146,15 @@ export default {
         //此处路由跳转使用别名，地址栏中隐藏路由参数：id:模板ID，readonly:是否只读
         this.$router.push({name: 'showMode',params:{ id: this.selectedRows[0].id,readonly:0}});
       }
-    }
+    },
   },
   computed:{
-    btnShow(){
-      return this.isCreat === 1? false : true;
-    }
+    ...mapState([
+      'docData'
+    ]),
+    ...mapGetters([
+      'finalPatten'
+    ]),
   },
   /**
    * [created 数据初始化之后，根据用户名立即获取全部模板列表]
@@ -174,6 +183,7 @@ export default {
       console.log(response)
     });
   },
+
 }
 </script>
 

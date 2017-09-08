@@ -1,6 +1,6 @@
 <template>
   <div class="creatContact">
-  <modeList :isCreat="1"></modeList>
+    <modeList></modeList>
   </div>
 </template>
 
@@ -11,14 +11,6 @@ export default {
   name: 'creatContact',
   components:{
     modeList
-  },
-  data () {
-    return {
-      
-    }
-  },
-  methods:{
-
   },
   created:function(){
     this.$alert('请先选择一个模板', '提示', {

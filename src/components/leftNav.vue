@@ -12,7 +12,7 @@
       <el-menu-item index="contactList">查看所有</el-menu-item>
       <el-menu-item index="creatContact">新建合同</el-menu-item>
     </el-submenu>
-    <el-menu-item index="3">
+    <el-menu-item index="userMng">
       <i class="el-icon-star-on"></i>
       <span slot="title">用户管理</span>
     </el-menu-item>
@@ -28,6 +28,8 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
+
 export default {
   name: 'leftnav',
   data () {
@@ -45,6 +47,18 @@ export default {
       console.log(index)
       if (index){
         this.$router.push({path:`/${index}`});
+      }
+    },
+    ...mapMutations([
+      'changeDocStatus'
+    ]),
+  },
+  watch:{
+    '$route' ( to ) {
+      if ( to.path === "/creatContact" ){
+        this.changeDocStatus({type:"contact"});
+      } else if ( to.path === "/modeMng") {
+        this.changeDocStatus({type:"mode"});
       }
     }
   }
