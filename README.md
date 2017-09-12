@@ -1,6 +1,6 @@
-# shangpinfang
+# 商品房网签平台
 
-> A Vue.js project
+> vue + vuex + vue router + vue resource + element ui + less
 
 ## Build Setup
 

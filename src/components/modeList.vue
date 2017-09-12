@@ -55,7 +55,7 @@ export default {
      * @DateTime  2017-09-04T16:42:10+0800
      */
     viewMode: function(){
-      if ( cheakSelectLength(this.selectedRows) ){
+      if ( cheakSelectLength.call(this,this.selectedRows) ){
         this.changeDocStatus({methods:"readonly",type:"mode"});
         this.$router.push({name: 'showMode',params:{ id: this.selectedRows[0].id,readonly:1}});
       }
@@ -75,7 +75,7 @@ export default {
      * @DateTime  2017-08-30T12:01:26+0800
      */
     modifyMode: function(){
-      if ( cheakSelectLength(this.selectedRows) ){
+      if ( cheakSelectLength.call(this,this.selectedRows) ){
         this.changeDocStatus({methods:"update",type:"mode"});
         this.$router.push({name: "p3",params:{id:this.selectedRows[0].id,update:1,readonly:0}});
       }
@@ -142,7 +142,7 @@ export default {
      * @DateTime  2017-09-04T16:44:53+0800
      */
     editContact:function(){
-      if ( cheakSelectLength(this.selectedRows) ){
+      if ( cheakSelectLength.call(this,this.selectedRows) ){
         //此处路由跳转使用别名，地址栏中隐藏路由参数：id:模板ID，readonly:是否只读
         this.$router.push({name: 'showMode',params:{ id: this.selectedRows[0].id,readonly:0}});
       }

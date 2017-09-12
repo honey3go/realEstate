@@ -128,7 +128,7 @@ export default {
      * @DateTime  2017-09-04T16:42:10+0800
      */
     viewContact: function(){
-     if ( cheakSelectLength(this.selectedRows) ){
+     if ( cheakSelectLength.call(this,this.selectedRows) ){
         this.changeDocStatus({methods:"readonly",type:"contact"});
         this.$router.push({name: 'showMode',params:{ id: 44}});
      }
@@ -139,7 +139,7 @@ export default {
      * @DateTime  2017-08-30T12:01:26+0800
      */
     modifyContact: function(){
-      if ( cheakSelectLength(this.selectedRows) ){
+      if ( cheakSelectLength.call(this,this.selectedRows) ){
         this.changeDocStatus({methods:"update",type:"contact"});
         this.$router.push({name: 'showMode',params:{ id: 44,readonly:0}});
      }

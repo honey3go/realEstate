@@ -115,7 +115,7 @@ let string2Obj = function(str,startSyb = '{',endSyb = '}'){
 let cheakSelectLength = function(data){
     if ( data.length === 0 ){//选择集为空时不能查看
 
-      Vue.prototype.$alert( '请在表格中选择一项', '警告', {
+      this.$alert( '请在表格中选择一项', '警告', {
         confirmButtonText: '确定',
         type: 'warning',
         callback: action => {}//$alert, $confirm 
@@ -124,7 +124,7 @@ let cheakSelectLength = function(data){
       return false
     } else if ( data.length >= 2 ){//选择集中有多个对象时不能查看
 
-      Vue.prototype.$alert( '只能在表格中选择一项', '警告', {
+      this.$alert( '只能在表格中选择一项', '警告', {
         confirmButtonText: '确定',
         type: 'warning',
         callback: action => {}
