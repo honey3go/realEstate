@@ -10,6 +10,7 @@ import showMode from '@/components/showMode'
 import contactList from '@/components/contactList'
 import creatContact from '@/components/creatContact'
 import userMng from '@/components/userMng'
+import examine from '@/components/examine'
 
 Vue.use(Router)
 
@@ -20,6 +21,11 @@ export default new Router({
       path:'/',
       name:'home',
       component: home
+    },
+    {
+      path: '/examine',
+      name: 'examine',
+      component: examine
     },
     {
       path: '/modeMng',

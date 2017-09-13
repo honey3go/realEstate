@@ -10,17 +10,17 @@
               <el-step title="审批中"></el-step>
               <el-step title="完成"></el-step>
             </el-steps>
-          </template> -->
-        </el-table-column>
+          </template> 
+        </el-table-column>-->
         <el-table-column type="index" min-width="65"></el-table-column>
         <el-table-column prop="hth" label="合同编号" sortable min-width="100"></el-table-column>
         <el-table-column prop="zrzmc" label="不动产坐落地址"></el-table-column>
         <el-table-column prop="bdcfwh" label="自然幢号" min-width="130"></el-table-column>
         <el-table-column prop="bdcdyh" label="不动产单元号" sortable min-width="130"></el-table-column>
         <el-table-column prop="doorNum" label="门牌号" sortable  :sort-method="sortDoorNum" min-width="65"></el-table-column>
-        <el-table-column prop="status.des" label="状态" width="100" :filters="[{ text: '已完成', value: '已完成' }, { text: '审批中', value: '审批中' }]" :filter-method="filterTag" filter-placement="bottom-end">
+        <el-table-column prop="status.des" label="状态" width="100" :filters="filterText" :filter-method="filterTag" filter-placement="bottom-end">
         <template scope="scope">
-          <el-tag :type="scope.row.status === '审批中' ? 'warning' : 'success'" close-transition>{{scope.row.status}}</el-tag>
+          <el-tag :type="statusType.get(scope.row.status)" close-transition>{{scope.row.status}}</el-tag>
         </template>
       </el-table-column>
       </el-table>
@@ -43,6 +43,8 @@ export default {
   data () {
     return {
       selectedRows:[],//用于存放当前表格选择集
+      //合同状态-类型映射表
+      statusType: new Map([['未提交','gray'], ['已提交','primary'], ['审批未通过','danger'],['审批已通过','success']]),
       contactList: [
         {
           hth:"2017090100102",
@@ -50,8 +52,7 @@ export default {
           bdcfwh:"211481006006GB00002F0006",
           doorNum:"1-1-3",
           zrzmc:"兴城市四家屯街道滨核街1-8号",
-          status:"已完成",
-          statusCode:[2,1]
+          status:"审批已通过",
         },
         {
           hth:"2017090100013",
@@ -59,8 +60,7 @@ export default {
           bdcfwh:"211481006006GB00002F0006",
           doorNum:"2-1-1",
           zrzmc:"兴城市四家屯街道滨核街1-8号",
-          status:"审批中",
-          statusCode:[1,1]
+          status:"已提交",
         },
         {
           hth:"2017090100306",
@@ -68,13 +68,59 @@ export default {
           bdcfwh:"211481006006GB00002F0006",
           doorNum:"1-11-3",
           zrzmc:"兴城市四家屯街道滨核街1-8号",
-          status:"已完成",
-          statusCode:[2,1]
+          status:"未提交",
+        },
+        {
+          hth:"2017090100006",
+          bdcdyh:"211481006006GB00002F00060101",
+          bdcfwh:"211481006006GB00002F0006",
+          doorNum:"1-11-4",
+          zrzmc:"兴城市四家屯街道滨核街1-8号",
+          status:"审批未通过",
+        },
+        {
+          hth:"2017090100112",
+          bdcdyh:"211481006006GB00002F00060161",
+          bdcfwh:"211481006006GB00002F0006",
+          doorNum:"2-11-2",
+          zrzmc:"兴城市四家屯街道滨核街1-8号",
+          status:"审批已通过",
+        },
+        {
+          hth:"2017090100002",
+          bdcdyh:"211481006006GB00002F00060041",
+          bdcfwh:"211481006006GB00002F0006",
+          doorNum:"2-10-3",
+          zrzmc:"兴城市四家屯街道滨核街1-8号",
+          status:"审批已通过",
+        },
+        {
+          hth:"2017090100003",
+          bdcdyh:"211481006006GB00002F00060003",
+          bdcfwh:"211481006006GB00002F0006",
+          doorNum:"1-5-1",
+          zrzmc:"兴城市四家屯街道滨核街1-8号",
+          status:"已提交",
+        },
+        {
+          hth:"2017090100073",
+          bdcdyh:"211481006006GB00002F0006073",
+          bdcfwh:"211481006006GB00002F0006",
+          doorNum:"2-17-1",
+          zrzmc:"兴城市四家屯街道滨核街1-8号",
+          status:"已提交",
         },
       ],
     }
   },
   methods:{
+    /**
+     * 映射 this.changeDocStatus() 为 this.$store.commit('changeDocStatus')
+     * @AuthorHTL 王叁
+     */
+    ...mapMutations([
+      'changeDocStatus' 
+    ]),
     /**
      * [handleRowChange 表格复选框选择事件，将当前选中的所有行的内容保存到数组selectedRows中]
      * @AuthorHTL 陈新华
@@ -85,8 +131,6 @@ export default {
       this.selectedRows = selection; 
     },
     sortDoorNum:function(a,b){
-      
-      console.log(a)
       let num_a = a.doorNum.split("-"),
           num_b = b.doorNum.split("-");
 
@@ -144,9 +188,16 @@ export default {
         this.$router.push({name: 'showMode',params:{ id: 44,readonly:0}});
      }
     },
-    ...mapMutations([
-      'changeDocStatus' // 映射 this.changeDocStatus() 为 this.$store.commit('changeDocStatus')
-    ]),
+  },
+  computed:{
+    filterText(){
+      let filters = [];
+
+      for ( let key of this.statusType.keys() ){
+        filters.push({ text: key, value:key});
+      }
+      return filters;
+    }
   },
 }
 </script>

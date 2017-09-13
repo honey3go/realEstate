@@ -29,12 +29,20 @@
         <h3>邮政编码：<input :class="['ipt-active','normal']" data-estl="0">联系电话：<input :class="['ipt-active','normal']" data-estl="0"></h3>
       </div> 
       <div class="prt-btn noprint">
-        <div>
+        <div v-if="docData.type!=='examine'">
           <el-button type="primary" icon="document" title="预览/打印" class="norad" @click="printPage">&nbsp</el-button>
           <span>◆</span>
         </div>
-        <div>
+        <div v-if="docData.type!=='examine'">
           <el-button type="success" icon="upload2" title="保存" class="norad" @click="savePage">&nbsp</el-button>
+          <span>◆</span>
+        </div>
+        <div v-if="docData.type === 'examine'">
+          <el-button type="success" icon="check" title="审批通过" class="norad" @click="passExamine">&nbsp</el-button>
+          <span>◆</span>
+        </div>
+        <div v-if="docData.type === 'examine'">
+          <el-button type="danger" icon="close" title="审批不通过" class="norad" @click="unpassExamine">&nbsp</el-button>
           <span>◆</span>
         </div>
       </div>
@@ -43,7 +51,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations } from 'vuex'
+import { mapState, mapGetters} from 'vuex'
 import systemParam from '../js/systemParam.js'
 import { string2Obj } from '../js/generalMethods.js'
 
@@ -117,17 +125,36 @@ export default {
           console.log(response)
         });
     },
-  },
-  computed:{
-    ...mapState([
-      'docData'
-    ]),
-    ...mapGetters([
-      'finalPatten'
-    ]),
+    passExamine(){
+      this.$alert( '审批成功！', '提示', {
+        confirmButtonText: '确定',
+        type: 'success',
+        callback: action => {
+          this.$router.go(-1);
+        }
+      });
+    },
+    unpassExamine(){
+      this.$prompt('请输入不通过原因', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        inputPattern: /\S/,
+        inputErrorMessage: '原因不能为空'
+      }).then(({ value }) => {
+        this.$message({
+          type: 'success',
+          message: '已将合同退回'
+        });
+        this.$router.go(-1);
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '取消审批'
+        });       
+      });
+    }
   },
   created:function(){
-
     if ( typeof this.$route.params.id === "undefined"){
       return
     }
@@ -158,7 +185,6 @@ export default {
     });
   },
   mounted:function(){
-    console.log(this.docData,"conllllllllll")
 /*    let inputs = Array.from( document.getElementsByTagName("input") );
 
     if ( this.$route.params.readonly === 1){
@@ -174,6 +200,12 @@ export default {
     }*/
   },
   computed:{
+    ...mapState([
+      'docData'
+    ]),
+    ...mapGetters([
+      'finalPatten'
+    ]),
     modeMsgAuto: function(){
       let { modeName, more, date, name } = this.modeMsg,
           page = 1;
@@ -184,7 +216,6 @@ export default {
           page = 1;
       return { modeName, more, date, name, page, lastEditDate:this.updateTime, lastEditName:name, user:this.$store.state.user};
     },
-
   },
 }
 </script>

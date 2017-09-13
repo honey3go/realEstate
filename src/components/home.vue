@@ -2,7 +2,7 @@
   <div id="home">
     <h3>{{`${$store.state.user.name}，欢迎您！`}}</h3>
     <h1>今天是
-      <span>    {{`${nowDate.getFullYear()}年${nowDate.getMonth()+1}月${nowDate.getDate()}日 星期${changNum(nowDate.getDay())}`}}</span>
+      <span>    {{`${nowDate.getFullYear()}年${nowDate.getMonth()+1}月${nowDate.getDate()}日 星期${numList.get(nowDate.getDay())}`}}</span>
     </h1>
   </div>
 </template>
@@ -15,16 +15,10 @@ export default {
   data () {
     return {
       nowDate: new Date(),
-    }
-  },
-  methods:{
-    changNum:function(num){
-      let changeArr = new Map([
+      numList: new Map([
         [1,'一'], [2,'二'], [3,'三'],
         [4,'四'], [5,'五'], [6,'六'],[7,'日']
-      ]);
-      
-      return changeArr.get(num);
+      ]),
     }
   },
 }

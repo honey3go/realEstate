@@ -33,7 +33,7 @@ export default {
   },
   mounted:function(){
     if ( this.docData.methods === "readonly" ){
-      let ipts = Array.from( document.getElementsByTagName("input") );
+      let ipts = Array.from( document.querySelectorAll("[data-estl]") );
 
       for ( let ipt of ipts ){
         ipt.readOnly = true;

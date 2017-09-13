@@ -1,4 +1,3 @@
-import Vue from 'vue'
 /**
  * 
  * @authors 王叁

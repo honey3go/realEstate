@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="print">
-    <div id="login" v-if="!user">
+    <div id="login" v-if="!user.name">
       <div id="main" class="main" >
         <h1>商品房网上备案系统</h1>
         <div class="wrapDiv" v-model="input_msg">
@@ -76,13 +76,29 @@ export default {
       let ipt = this.input_msg;
 
       if ( ipt.admin === '辽宁龙田置业有限责任公司'){
-        if ( ipt.pwd === '000000' ){
-          this.user = { name : ipt.admin};
-
+        if ( ipt.pwd === this.user.password ){
+          
+          this.initLogin({ name:ipt.admin, password: ipt.pwd, role:"inc"})
           this.$message({
             message: '恭喜您，登录成功！',
             type: 'success'
           });
+        } else {
+          this.$alert('密码错误', '错误', {
+            confirmButtonText: '确定',
+            type: 'error',
+            callback: action => {}
+          });
+        };
+      } else if ( ipt.admin === 'gov001' ) {
+        if ( ipt.pwd === this.user.password ){
+          
+          this.initLogin({ name:ipt.admin, password: ipt.pwd, role:"gov"})
+          this.$message({
+            message: '恭喜您，登录成功！',
+            type: 'success'
+          });
+          console.log(this.user)
         } else {
           this.$alert('密码错误', '错误', {
             confirmButtonText: '确定',
@@ -108,7 +124,8 @@ export default {
     ]),
   },
   mounted(){
-    this.initLogin({name:"辽宁龙田置业有限责任公司",password:"000000"});
+    console.log(this.user)
+    //this.initLogin({name:"辽宁龙田置业有限责任公司",password:"000000"});
   }
 }
 </script>

@@ -116,22 +116,17 @@ export default {
     }
   },
   watch: {
-    active: function (val, oldVal) {
+    active: function (val) {
       if( val === 3 ){
         this.isShow = false;
         this.count();
         this.changePassword({ password:this.ruleForm2.newPass });
       }
     },
-    timer: function (val, oldVal) {
-      if( val === 0){
-        this.$router.push('/');
-      }
-    }
   },
   methods:{
     ...mapMutations([
-      'changePassword' 
+      'changePassword' ,'reLogin'
     ]),
     /**
      * [count：5秒的倒计时]
@@ -141,6 +136,9 @@ export default {
       if (this.timer > 0) {
           this.timer--;
           setTimeout(this.count, 1000);
+      } else {
+        this.reLogin();
+        this.$router.push('/');
       }
     },
     /**

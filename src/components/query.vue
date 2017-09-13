@@ -57,10 +57,8 @@ export default {
       //1.格式化数据，使得门牌号为全数字
       //2.对每户房屋，新增change属性，存放完整门牌号，单元号，楼号，户号
       //3.并按楼层从低到高存为数组
-      debugger
       for (let value of house){
         //1.当前数据中楼层存在数字+英文格式，需要转换为纯数字格式
-        
         let doorArr = value.bdczl.match(reg),
             doorNum = doorArr[doorArr.length-1],//取得门牌号2-1-1或1-3A-1
             normalData = new Map([//完整门牌号标准化字典
@@ -110,21 +108,26 @@ export default {
 
       return finalData;
     },
+    /**
+     * [showPic 表格行展开事件，显示户型图]
+     * @AuthorHTL 王叁
+     * @DateTime  2017-09-01T17:32:13+0800
+     * @param     {object}                 row      [当前点击的行对应的数据对象]
+     * @param     {boolean}                expanded [是否展开]
+     */
     showPic: function(row,expanded){
-
-      if ( !this.houseData.hasOwnProperty(row.NUM)){
+      if ( !this.houseData.hasOwnProperty(row.NUM) ){
 
         this.$http.get(`${systemParam.serviceAddress}/${systemParam.getHouse}${row.NUM}`)
           .then(response => {
             let responseObj = string2Obj(response.data);
             console.log("house")
 
-            if (responseObj!==null){
+            if ( responseObj!==null ){
               let { code, msg, data } = responseObj;
 
               if ( code === "200" && data.length > 0) {
                 //这里使用this.$set，不然houseData非响应式，不会渲染DOM
-                
                 this.$set(this.houseData, row.NUM, this.changeHouse(data,this.houseReg.door));
               } else {
                 alert("没有对应数据！"+code)

@@ -8,14 +8,15 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
   	user: { 
-      name: "辽宁龙田置业有限责任公司",
+      name: "",
 		  password:"000000",
+      role:"inc",//inc,gov
 		  logTime:new Date().toLocaleString(),
       newPassword:"",
     },
     docData: {
       methods:"creat",//creat,update,readonly
-      type: "mode",//mode,contact
+      type: "mode",//mode,contact,examine
       historyModeData:{},//已提交的模板数据
       historyConData:{},//已提交的模板数据
       inputData:{}//当前输入的数据
@@ -73,12 +74,17 @@ const store = new Vuex.Store({
   },
   mutations: {
   	initLogin(state,payload){
-  		state.user.name = payload.name;
-  		state.user.password = payload.password;
-  		state.user.logTime = new Date().toLocaleString();
+      Vue.set(state.user, 'name', payload.name);
+      Vue.set(state.user, 'password', payload.password);
+      Vue.set(state.user, 'role', payload.role);
+  		Vue.set(state.user, 'logTime', new Date().toLocaleString());
   	},
+    reLogin(state){
+      Vue.set(state.user, 'name', '');
+    },
     changePassword(state,payload){
-      state.user.newPassword = payload.password;
+      Vue.set(state.user,'password',payload.password);
+      //state.user.newPassword = payload.password;
     },
     changeDocStatus(state,payload){
       state.docData.methods = payload.methods ? payload.methods : state.docData.methods;
