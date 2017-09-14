@@ -1,7 +1,7 @@
 <template>
   <div id="contactlist">
     <div class="mode-list">
-      <el-table :data="contactList" class="table-list"  height="100%" max-height="100%" border style="width: 100%;height:100%;" @select="handleRowChange" @select-all="handleRowChange">
+      <el-table :data="contactList" class="table-list"  height="100%" max-height="100%" border style="width: 100%;height:100%;" show-summary :summary-method="getSummaries" @select="handleRowChange" @select-all="handleRowChange">
         <el-table-column type="selection" min-width="55"></el-table-column>
 <!--         <el-table-column type="expand" width="50">
           <template scope="scope">
@@ -121,6 +121,52 @@ export default {
     ...mapMutations([
       'changeDocStatus' 
     ]),
+    getSummaries({ columns, data }){
+       const sums = [];
+       
+       columns.forEach((conlume,index)=>{
+       
+          if ( index === 0 ){
+            sums[index] = '合计';
+            return;
+          }
+
+          if ( index === 7 ){
+            sums[7]='';
+            let status = data.map((value) => value.status).sort();
+            let tempVal = "",
+                tempIdx = 0;
+
+            for ( let [idx,val] of status.entries() ) {
+              if (idx === 0){
+                 tempVal = val;
+                 return
+              } 
+
+              if (val!==tempVal) {
+                sums[7] += `${tempVal}:${idx-tempIdx} `;
+            
+                tempIdx = idx;
+                tempVal = val;
+
+                if(idx===status.length-1){
+                  sums[7] += `${tempVal}:${idx-tempIdx} `;
+                  console.log(sums)
+                  
+                }
+                return
+              } 
+              
+              if (idx===status.length-1){
+                sums[7] += `${tempVal}:${idx-tempIdx} `;
+               
+              }
+            }
+          }
+       })
+       console.log(sums)
+        return sums;
+    },
     /**
      * [handleRowChange 表格复选框选择事件，将当前选中的所有行的内容保存到数组selectedRows中]
      * @AuthorHTL 陈新华
