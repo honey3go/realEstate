@@ -5,26 +5,18 @@
     </el-col>
     <el-col :xs="20" :sm="18" :md="18" :lg="18" class="main-write print">
       <router-view class="page print"></router-view>
-<!--         <div class="prt-btn noprint">
-        <div>
-          <el-button type="primary" icon="document" title="预览/打印" class="norad">&nbsp</el-button>
-        </div>
-        <div>
-          <el-button type="success" icon="upload2" title="保存" class="norad">&nbsp</el-button>
-        </div>
-      </div> -->
     </el-col>
   </el-row>
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations } from 'vuex'
+import { mapState } from 'vuex'
 
 export default {
   name: 'creat-mode',
   data () {
     return {
-      treeData: [{
+      treeData: [{//目录树的数据
           label: '拆分后的模板表单',
           children: [{
             label: '封面',
@@ -77,7 +69,7 @@ export default {
             }]
           }]
       }],
-      defaultProps: {
+      defaultProps: {//目录树映射规则
         children: 'children',
         label: 'label'
       },
@@ -86,9 +78,12 @@ export default {
   },
   props:['modeID'],
   methods: {
-    ...mapMutations([
-      'changeDocStatus'
-    ]),
+    /**
+     * [getCheckedNodes 点击树的节点跳转子路由]
+     * @AuthorHTL
+     * @DateTime  2017-08-25T14:33:25+0800
+     * @param     {object}                 obj [树节点]
+     */
     getCheckedNodes(obj) {
       if (obj.path){
         this.$router.push(`/creatMode/${obj.path}`);
@@ -99,10 +94,12 @@ export default {
     ...mapState([
       'docData'
     ]),
-    ...mapGetters([
-      'finalPatten'
-    ]),
   },
+  /**
+   * [mounted 组件挂载后，如果methods为readonly，则所有input只读]
+   * @AuthorHTL 王叁
+   * @DateTime  2017-08-25T14:36:35+0800
+   */
   mounted(){
     if ( this.docData.methods === "readonly" ){
       let ipts = Array.from( document.getElementsByTagName("input") );
@@ -145,15 +142,4 @@ export default {
   overflow-x: auto;
   overflow-y: auto;
 }
-/*.prt-btn{
-  position: fixed;
-  top:150px;
-  line-height: 40px;
-}
-.norad{
-  border-radius: 0;
-  width: 80px;
-  height: 36px;
-
-}*/
 </style>

@@ -51,7 +51,15 @@ export default {
     }
   },
   methods:{
-    changeHouse: function(house,reg){
+    /**
+     * [changeHouse 格式化house数据]
+     * @AuthorHTL
+     * @DateTime  2017-09-01T15:11:22+0800
+     * @param     {array}                  house [description]
+     * @param     {RegExp}                 reg   [正则表达式]
+     * @return    {array}                        [格式化后的house数据]
+     */
+    changeHouse: function( house, reg ){
       let totalFloor = parseInt(house[0].zcs),//总楼层数
           finalData = new Array(totalFloor);//按楼层存户号
       //1.格式化数据，使得门牌号为全数字

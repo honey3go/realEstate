@@ -11,6 +11,9 @@ import contactList from '@/components/contactList'
 import creatContact from '@/components/creatContact'
 import userMng from '@/components/userMng'
 import examine from '@/components/examine'
+import statList from '@/components/statList'
+import developer from '@/components/developer'
+import households from '@/components/households'
 
 Vue.use(Router)
 
@@ -21,6 +24,25 @@ export default new Router({
       path:'/',
       name:'home',
       component: home
+    },
+    {
+      path:'',
+      component: home
+    },
+    {
+      path: '/statList',
+      name: 'statList',
+      component: statList
+    },
+    {
+      path: '/developer',
+      name: 'developer',
+      component: developer
+    },
+    {
+      path: '/households',
+      name: 'households',
+      component: households
     },
     {
       path: '/examine',
@@ -66,7 +88,7 @@ export default new Router({
       	{ path: 'p11', },
       	{ path: 'p12', },
       	{ path: 'p13', },
-	  ]		  
+	    ]		  
     },
     {
       path: '/query',

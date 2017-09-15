@@ -111,6 +111,13 @@ let string2Obj = function(str,startSyb = '{',endSyb = '}'){
     return null;
   };
 }
+/**
+ * [cheakSelectLength 检查是否在表格中选中一行]
+ * @AuthorHTL 王叁
+ * @DateTime  2017-09-01T14:19:35+0800
+ * @param     {object}                  data [表格当前选择集]
+ * @return    {boolean}                      [检查是否通过]
+ */
 let cheakSelectLength = function(data){
     if ( data.length === 0 ){//选择集为空时不能查看
 

@@ -47,20 +47,19 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex'
-import leftNav from './components/leftNav'
 import systemParam from './js/systemParam.js'
 import { string2Obj } from './js/generalMethods.js'
+import leftNav from './components/leftNav'
 
 export default {
   name: 'app',
   data() {
-      return {
-        input_msg:{//保存登录的用户名和密码，与用户数入在Input中的值双向绑定
-          admin:'',//用户名
-          pwd:'' //密码
-        },
-        //user: /*null,*/{name:'辽宁龙田置业有限责任公司'},//用户名，用于传递给子组件
-      };
+    return {
+      input_msg:{//保存登录的用户名和密码，与用户数入在Input中的值双向绑定
+        admin:'',//用户名
+        pwd:'' //密码
+      },
+    };
   },
   components:{
     leftNav
@@ -74,10 +73,10 @@ export default {
      */
     show:function(){
       let ipt = this.input_msg;
-
+      //演示用，写死的在前端的用户名和密码，两个角色：房地产公司、房地产管理部门
       if ( ipt.admin === '辽宁龙田置业有限责任公司'){
         if ( ipt.pwd === this.user.password ){
-          
+          //登录成功时，将用户名、密码、角色保存到全局状态
           this.initLogin({ name:ipt.admin, password: ipt.pwd, role:"inc"})
           this.$message({
             message: '恭喜您，登录成功！',
@@ -92,13 +91,12 @@ export default {
         };
       } else if ( ipt.admin === 'gov001' ) {
         if ( ipt.pwd === this.user.password ){
-          
+          //登录成功时，将用户名、密码、角色保存到全局状态
           this.initLogin({ name:ipt.admin, password: ipt.pwd, role:"gov"})
           this.$message({
             message: '恭喜您，登录成功！',
             type: 'success'
           });
-          console.log(this.user)
         } else {
           this.$alert('密码错误', '错误', {
             confirmButtonText: '确定',
@@ -114,122 +112,131 @@ export default {
         });
       };
     },
+    //Vuex, 映射 this.initLogin() 为 this.$store.commit('initLogin')
     ...mapMutations([
-        'initLogin' // 映射 this.initLogin() 为 this.$store.commit('initLogin')
-      ]),
+      'initLogin' 
+    ]),
   },
   computed:{
+    //Vuex, 映射 this.user 为 this.$store.state.user
     ...mapState([
       'user'
     ]),
   },
-  mounted(){
-    console.log(this.user)
-    //this.initLogin({name:"辽宁龙田置业有限责任公司",password:"000000"});
-  }
 }
 </script>
 
 <style lang='less'>
-@media print { 
-.noprint { display: none; }
-.print{
-  margin: 0 !important;
-  border: 0 !important;
-  overflow-x:visible !important;
-  overflow-y:visible !important;
- }
+@media print { //媒体查询，打印
+  .noprint { display: none; }
+  .print{
+    margin: 0 !important;
+    border: 0 !important;
+    overflow-x:visible !important;
+    overflow-y:visible !important;
+   }
 } 
-//解决绝对定位与手机软键盘冲突：陈新华
-@media screen and (max-height: 400px){
+@media screen and (max-height: 400px){//媒体查询，解决绝对定位与手机软键盘冲突：陈新华
   footer,#footer{
     display: none;
   }
 }
-@media screen and (max-width: 1100px) {
-    #left-warp{
-      width: 64px;
-    }
-    #main-warp{
-      width: 296px;
-    }
-    .app-hide,.mode-btns span{
-      display: none;
-    }
-     //登录页
-    #login{
-        display: block;
-        background: url('/static/img/bg_App.jpg') no-repeat;//绝对路径
-        background-size: 100% 100%;  
-      #main {
-        border-top: 200px solid transparent;
+@media screen and (max-width: 360px) {//媒体查询，宽360的手机
+  #left-warp{
+    width: 64px;
+  }
+  #main-warp{
+    width: 296px;
+  }
+  .app-hide,.mode-btns span{
+    display: none;
+  }
+   //登录页
+  #login{
+      display: block;
+      background: url('/static/img/bg_App.jpg') no-repeat;//绝对路径
+      background-size: 100% 100%;  
+    #main {
+      border-top: 200px solid transparent;
+      background: none;
+      h1{
+        color: #7E4543;
         background: none;
-        h1{
-          color: #7E4543;
-          background: none;
-        }
-        .wrapDiv{
-          @btn_height:30px;
-          border: none;
-          background: none;
-            .inputDiv{
-              margin: 30px auto;
-              width: 100%;
-              .inputBtn{
-                margin-left: 10px;
-                width: 62%;
-                height: @btn_height;
-              }
-              .loginBtn{
-                height: @btn_height+4;
-                width: 28%;
-                font-size: inherit;
-              }
+      }
+      .wrapDiv{
+        @btn_height:30px;
+        border: none;
+        background: none;
+          .inputDiv{
+            margin: 30px auto;
+            width: 100%;
+            .inputBtn{
+              margin-left: 10px;
+              width: 62%;
+              height: @btn_height;
             }
-        }
-      }
-    }//login
-    #userMng {
-      #inputForm1{
-        width: 95%;
-      }
-      #inputForm2{
-        width: 95%;
-      }
-      .indent{
-        text-indent: 4em;
-      }
-      div.step{
-        margin: 0 15%;
-      }
-      div.userMng-info {
-        width: 100%;
-        padding-left: 0;
+            .loginBtn{
+              height: @btn_height+4;
+              width: 28%;
+              font-size: inherit;
+            }
+          }
       }
     }
-
+  }//login
+  #userMng {
+    #inputForm1{
+      width: 95%;
+    }
+    #inputForm2{
+      width: 95%;
+    }
+    .indent{
+      text-indent: 4em;
+    }
+    div.step{
+      margin: 0 15%;
+    }
+    div.userMng-info {
+      width: 100%;
+      padding-left: 0;
+    }
+  }
+  //备案统计功能
+  #statList{
+    div.statBtns{
+      border-top: 10px solid transparent;
+      .statSele{
+        margin: 10px 0;
+      }
+    }
+  }  
+  #developer, #households{
+    span.devHeader{
+      border-top: 40px solid transparent;
+    }
+      div.devTable, div.holdsTable{
+      top: 80px;
+    }
+  }
+  //弹出框适应手机屏幕
+  div.el-message-box {
+    width: 280px;
+    height: 160px;
+    .el-message-box__content{
+      padding: 20px 20px;
+    }
+    .el-message-box__btns{
+      padding-top: 0px;
+      .el-button, .el-textarea__inner{
+        line-height: 10px;
+      }
+    }
+  }
 }
-
-@mainGrey:rgb(238,241,246);
-
-html {
-  height: 100%;
-}
-body {
+html,body {
   height: 100%;
   margin: 0;
-}
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  height: 100%;
-}
-.content{
-  width: 100%;
-  height: 100%;
 }
 nav {
   position: relative;
@@ -257,15 +264,14 @@ footer {
 
   .leftBar{
     height: 100%;
-    background-color: @mainGrey;
+    background-color: rgb(238,241,246);
   }
   .page{
     height: 100%;
     background-color: rgb(250,250,250);
   }
 }
-// 登录页
-#login{
+#login{// 登录页
   height: 100%;
   .main{
     height: 35%;
@@ -325,5 +331,17 @@ footer {
     color: #ccc;
     font-size: 0.5em;
   }
+}
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  height: 100%;
+}
+.content{
+  width: 100%;
+  height: 100%;
 }
 </style>

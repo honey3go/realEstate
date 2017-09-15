@@ -14,16 +14,6 @@
           <p>出卖人购买的商品房为<select><option v-for="item in optionsD">{{item}}</option></select>商品房。预售商品房批准机关为<input data-estl="0" :class="['ipt-active','long']">，商品房预售许可证号为<input data-estl="0" :class="['ipt-active','long']">。</p>
           <p><input data-estl="0" :class="['ipt-active','indent']"><input data-estl="0" :class="['ipt-active','longest']"></p>
       </div> 
-<!--       <div class="prt-btn noprint">
-        <div>
-          <el-button type="primary" icon="document" title="预览/打印" class="norad" @click="printPage">&nbsp</el-button>
-          <span>◆</span>
-        </div>
-        <div>
-          <el-button type="success" icon="upload2" title="保存" class="norad" @click="savePage">&nbsp</el-button>
-          <span>◆</span>
-        </div>
-      </div> -->
     </div>
   </div>
 </template>
@@ -43,14 +33,6 @@ export default {
       optionsD:["现售","预售"]
     }
   },
-  methods:{
-    printPage:function(){
-      window.print();
-    },
-    savePage:function(){
-      console.log("hh")
-    }
-  }
 }
 </script>
 

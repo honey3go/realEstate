@@ -12,7 +12,6 @@ const store = new Vuex.Store({
 		  password:"000000",
       role:"inc",//inc,gov
 		  logTime:new Date().toLocaleString(),
-      newPassword:"",
     },
     docData: {
       methods:"creat",//creat,update,readonly
@@ -23,6 +22,13 @@ const store = new Vuex.Store({
     }
   },
   actions: {
+    /**
+     * [getHistoryModeData 获取历史模板内容]
+     * @AuthorHTL 王叁
+     * @DateTime  2017-09-05T13:47:43+0800
+     * @param     {object}                 options.commit  [用于执行mutations中的方法]
+     * @param     {object}                 options.getters [用于获取getters中的属性]
+     */
     getHistoryModeData({commit,getters}){
       if ( getters.finalPatten !== "creatmode"){
         Vue.prototype.$http.get(`${systemParam.serviceAddress}${systemParam.getMode}${this.$route.params.id}`)
@@ -47,6 +53,13 @@ const store = new Vuex.Store({
         });
       }
     },
+    /**
+     * [getHistoryConData 获取历史合同内容]
+     * @AuthorHTL 王叁
+     * @DateTime  2017-09-05T13:52:17+0800
+     * @param     {object}                 options.commit  [用于执行mutations中的方法]
+     * @param     {object}                 options.getters [用于获取getters中的属性]
+     */
     getHistoryConData({commit,getters}){
       if ( getters.finalPatten !== "creatmode"){
         let url = ``;//`${systemParam.serviceAddress}${systemParam.getMode}${this.$route.params.id}`
@@ -73,23 +86,27 @@ const store = new Vuex.Store({
     },
   },
   mutations: {
+    //登录成功后，将用户名、密码、角色、登录时间存储到user属性中
   	initLogin(state,payload){
       Vue.set(state.user, 'name', payload.name);
       Vue.set(state.user, 'password', payload.password);
       Vue.set(state.user, 'role', payload.role);
   		Vue.set(state.user, 'logTime', new Date().toLocaleString());
   	},
+    //用户修改密码后，跳转至登录页面
     reLogin(state){
       Vue.set(state.user, 'name', '');
     },
+    //用户修改密码
     changePassword(state,payload){
       Vue.set(state.user,'password',payload.password);
-      //state.user.newPassword = payload.password;
     },
+    //修改模板或合同的状态
     changeDocStatus(state,payload){
       state.docData.methods = payload.methods ? payload.methods : state.docData.methods;
       state.docData.type = payload.type ? payload.type : state.docData.type;
     },
+    //初始化historyModeData
     initHistoryModeData(state,value){
       state.docData.historyModeData = value;
     },
@@ -113,6 +130,7 @@ const store = new Vuex.Store({
     },
   },
   getters: {
+    //合并methods和type为一个字符串
     finalPatten: ({docData}) => {
       return docData.methods.concat(docData.type);
     }

@@ -10,12 +10,9 @@ Vue.use(VueResource);
 Vue.use(ElementUI);
 Vue.http.options.emulateJSON = true
 Vue.http.options.emulateHTTP = true
+Vue.http.options.xhr = { withCredentials: true }
 Vue.config.productionTip = false
 
-Vue.http.options.xhr = { withCredentials: true }
-
-
-/* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,

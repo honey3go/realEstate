@@ -1,7 +1,7 @@
 <template>
   <div class="examine">
     <div class="search-wrap">
-      <el-select v-model="searchContent" filterable placeholder="请选择一个开发商">
+      <el-select v-model="searchContent" class="sel-inc"  filterable placeholder="请选择一个开发商">
         <el-option v-for="item in incs" :key="item.value" :label="item.label" :value="item.label">
         </el-option>
       </el-select>
@@ -27,20 +27,20 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations } from 'vuex'
+import { mapMutations } from 'vuex'
 
 export default {
-  name: 'modeList',
+  name: 'examine',
   data () {
     return {
-      searchContent: '',
-      showList: false,
-      incs: [
+      searchContent: '',//双向绑定select元素
+      showList: false,//是否显示合同列表
+      incs: [//默认房地产商
           {value: '选项1',label: '辽宁龙田置业有限责任公司'}, 
           {value: '选项2',label: '万科房地产有限公司'}, 
           {value: '选项3',label: '中海地产集团有限公司'}, 
       ],
-      contactList: [
+      contactList: [//合同列表
         {
           hth:"2017090100013",
           bdcdyh:"211481006006GB00002F00060133",
@@ -75,18 +75,32 @@ export default {
     }
   },
   methods:{
+    //Vuex, 映射 this.changeDocStatus() 为 this.$store.commit('changeDocStatus')
     ...mapMutations([
-      'changeDocStatus' // 映射 this.changeDocStatus() 为 this.$store.commit('changeDocStatus')
+      'changeDocStatus' 
     ]),
+    /**
+     * [searchContact 在默认房地产商中搜索改地产商是否有合同数据]
+     * @AuthorHTL 王叁
+     * @DateTime  2017-08-25T14:44:06+0800
+     */
     searchContact(){
-     let hasInc =  this.contactList.findIndex( val => val.inc === this.searchContent);
+      let hasInc =  this.contactList.findIndex( val => val.inc === this.searchContent );
 
-     if ( hasInc > -1 ){
-      this.showList = true;
-     } else {
-      this.showList = false;
-     }
+      if ( hasInc > -1 ){
+        this.showList = true;
+      } else {
+        this.showList = false;
+      }
     },
+    /**
+     * [sortDoorNum 合同列表中单元号的排序规则]
+     * @AuthorHTL 王叁
+     * @DateTime  2017-08-25T14:46:29+0800
+     * @param     {object}                 a [单元号列中某一的单元格内容]
+     * @param     {object}                 b [单元号列中某一的单元格内容]
+     * @return    {boolean}                  [是否排在前面]
+     */
     sortDoorNum:function(a,b){
       let num_a = a.doorNum.split("-"),
           num_b = b.doorNum.split("-");
@@ -111,9 +125,16 @@ export default {
         }
       }
     },
-    filterTag(value, row) {
+    filterTag( value, row ) {
       return row.status === value;
     },
+    /**
+     * [startExamine 审批按钮点击事件]
+     * @AuthorHTL 王叁
+     * @DateTime  2017-09-11T14:49:55+0800
+     * @param     {number}                 index [行号]
+     * @param     {number}                 id    [合同编号]
+     */
     startExamine(index,id){
       this.changeDocStatus({methods:"readonly",type:"examine"});
       this.contactList.splice(index, 1);
@@ -138,5 +159,7 @@ export default {
     bottom: 10px;
   }
 }
-
+.sel-inc{
+  width: 200px;
+}
 </style>

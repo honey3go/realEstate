@@ -72,11 +72,21 @@ export default {
     }
   },
   methods:{
+    /**
+     * [printPage 预览打印按钮点击事件]
+     * @AuthorHTL 王叁
+     * @DateTime  2017-08-25T13:20:56+0800
+     */
     printPage:function(){
       window.print();
     },
+    /**
+     * [savePage 保存按钮点击事件]
+     * @AuthorHTL 王叁
+     * @DateTime  2017-08-25T13:20:26+0800
+     * @return    {[type]}                 [description]
+     */
     savePage:function(){
-      
       let  necessaries = Object.values(this.modeMsg).every(function(item){
         return item !== '';
       });
@@ -92,6 +102,7 @@ export default {
       } 
 
       let url,param;
+      
       if ( this.isUpdate ){
         this.updateTime = new Date().toLocaleDateString().replace(/\//g,"-");
             url = `${systemParam.serviceAddress}${systemParam.updateMode}`,
@@ -125,6 +136,11 @@ export default {
           console.log(response)
         });
     },
+    /**
+     * [passExamine 审批通过按钮点击事件]
+     * @AuthorHTL 王叁
+     * @DateTime  2017-09-14T15:23:22+0800
+     */
     passExamine(){
       this.$alert( '审批成功！', '提示', {
         confirmButtonText: '确定',
@@ -134,6 +150,11 @@ export default {
         }
       });
     },
+    /**
+     * [unpassExamine 审批不通过按钮点击事件]
+     * @AuthorHTL 王叁
+     * @DateTime  2017-09-14T15:23:55+0800
+     */
     unpassExamine(){
       this.$prompt('请输入不通过原因', '提示', {
         confirmButtonText: '确定',
@@ -183,21 +204,6 @@ export default {
     .catch(response => {
       console.log(response)
     });
-  },
-  mounted:function(){
-/*    let inputs = Array.from( document.getElementsByTagName("input") );
-
-    if ( this.$route.params.readonly === 1){
-      for ( let ipt of inputs ){
-        ipt.readOnly = true;
-      }
-    } else if( this.$route.params.readonly === 0) {
-      for ( let ipt of inputs ){
-        if ( ipt.dataset.estl === "1"){
-            ipt.readOnly = true;
-        } 
-      }
-    }*/
   },
   computed:{
     ...mapState([

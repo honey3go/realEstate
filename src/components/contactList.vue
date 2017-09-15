@@ -1,17 +1,8 @@
 <template>
   <div id="contactlist">
     <div class="mode-list">
-      <el-table :data="contactList" class="table-list"  height="100%" max-height="100%" border style="width: 100%;height:100%;" show-summary :summary-method="getSummaries" @select="handleRowChange" @select-all="handleRowChange">
+      <el-table :data="contactList" class="table-list"  height="100%" max-height="100%" border style="width: 100%;height:100%;" @select="handleRowChange" @select-all="handleRowChange">
         <el-table-column type="selection" min-width="55"></el-table-column>
-<!--         <el-table-column type="expand" width="50">
-          <template scope="scope">
-            <el-steps space="25%" :active="scope.row.statusCode[0]+1" finish-status="success">
-              <el-step title="已提交"></el-step>
-              <el-step title="审批中"></el-step>
-              <el-step title="完成"></el-step>
-            </el-steps>
-          </template> 
-        </el-table-column>-->
         <el-table-column type="index" min-width="65"></el-table-column>
         <el-table-column prop="hth" label="合同编号" sortable min-width="100"></el-table-column>
         <el-table-column prop="zrzmc" label="不动产坐落地址"></el-table-column>
@@ -35,17 +26,17 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations } from 'vuex'
-import { string2Obj, cheakSelectLength } from '../js/generalMethods.js'
+import { mapMutations } from 'vuex'
+import { cheakSelectLength } from '../js/generalMethods.js'
 
 export default {
   name: 'contanctList',
   data () {
     return {
       selectedRows:[],//用于存放当前表格选择集
-      //合同状态-类型映射表
+      //默认合同状态-类型映射表
       statusType: new Map([['未提交','gray'], ['已提交','primary'], ['审批未通过','danger'],['审批已通过','success']]),
-      contactList: [
+      contactList: [//合同数据
         {
           hth:"2017090100102",
           bdcdyh:"211481006006GB00002F00060131",
@@ -121,52 +112,6 @@ export default {
     ...mapMutations([
       'changeDocStatus' 
     ]),
-    getSummaries({ columns, data }){
-       const sums = [];
-       
-       columns.forEach((conlume,index)=>{
-       
-          if ( index === 0 ){
-            sums[index] = '合计';
-            return;
-          }
-
-          if ( index === 7 ){
-            sums[7]='';
-            let status = data.map((value) => value.status).sort();
-            let tempVal = "",
-                tempIdx = 0;
-
-            for ( let [idx,val] of status.entries() ) {
-              if (idx === 0){
-                 tempVal = val;
-                 return
-              } 
-
-              if (val!==tempVal) {
-                sums[7] += `${tempVal}:${idx-tempIdx} `;
-            
-                tempIdx = idx;
-                tempVal = val;
-
-                if(idx===status.length-1){
-                  sums[7] += `${tempVal}:${idx-tempIdx} `;
-                  console.log(sums)
-                  
-                }
-                return
-              } 
-              
-              if (idx===status.length-1){
-                sums[7] += `${tempVal}:${idx-tempIdx} `;
-               
-              }
-            }
-          }
-       })
-       console.log(sums)
-        return sums;
-    },
     /**
      * [handleRowChange 表格复选框选择事件，将当前选中的所有行的内容保存到数组selectedRows中]
      * @AuthorHTL 陈新华
@@ -200,6 +145,14 @@ export default {
         }
       }
     },
+    /**
+     * [filterTag 筛选选项]
+     * @AuthorHTL
+     * @DateTime  2017-09-04T14:23:07+0800
+     * @param     {string}                 value [选中的值]
+     * @param     {string}                 row   [行的状态]
+     * @return    {boolean}                      
+     */
     filterTag(value, row) {
       return row.status === value;
     },
@@ -236,6 +189,12 @@ export default {
     },
   },
   computed:{
+    /**
+     * [filterText 规定筛选字段]
+     * @AuthorHTL
+     * @DateTime  2017-09-15T14:26:19+0800
+     * @return    {array}                 [x筛选字段]
+     */
     filterText(){
       let filters = [];
 

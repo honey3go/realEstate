@@ -6,15 +6,12 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations } from 'vuex'
-import { string2Obj } from '../js/generalMethods.js'
-import systemParam from '../js/systemParam.js'
+import { mapState } from 'vuex'
 import writeMode from './writeMode'
 import fourthPage from './fourthPage'
 
 export default {
-  name: 'modeList',
-  props:['readonly'],
+  name: 'showMode',
   components: {
     writeMode, fourthPage
   },
@@ -23,14 +20,16 @@ export default {
       modeParams: this.$route.params,
     }
   },
-  methods:{
-
-  },
   computed:{
     ...mapState([
       'docData'
     ]),
   },
+  /**
+   * [mounted 元素挂在后，如果是只读模式则所有Input只读]
+   * @AuthorHTL
+   * @DateTime  2017-09-15T15:16:09+0800
+   */
   mounted:function(){
     if ( this.docData.methods === "readonly" ){
       let ipts = Array.from( document.querySelectorAll("[data-estl]") );
@@ -39,17 +38,6 @@ export default {
         ipt.readOnly = true;
       }
     }
-/*    if ( this.modeParams.readonly === 1){
-      for ( let ipt of inputs ){
-        ipt.readOnly = true;
-      }
-    } else {
-      for ( let ipt of inputs ){
-        if ( ipt.dataset.estl === "1"){
-            ipt.readOnly = true;
-        } 
-      }
-    }*/
   },
 }
 </script>
