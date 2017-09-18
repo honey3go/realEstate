@@ -8,6 +8,7 @@ import store from './store'
 
 Vue.use(VueResource);
 Vue.use(ElementUI);
+
 Vue.http.options.emulateJSON = true
 Vue.http.options.emulateHTTP = true
 Vue.http.options.xhr = { withCredentials: true }

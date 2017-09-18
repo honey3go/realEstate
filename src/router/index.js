@@ -9,62 +9,62 @@ export default new Router({
     {
       path:'/',
       name:'home',
-      component: resolve => require(['@/components/home'],resolve)
+      component: () => import('@/components/home')
     },
     {
       path:'',
-      component: resolve => require(['@/components/home'],resolve)
+      component: () => import('@/components/home')
     },
     {
       path: '/statList',
       name: 'statList',
-      component: resolve => require(['@/components/statList'],resolve)
+      component: () => import('@/components/statList')
     },
     {
       path: '/developer',
       name: 'developer',
-      component: resolve => require(['@/components/developer'],resolve)
+      component: () => import('@/components/developer')
     },
     {
       path: '/households',
       name: 'households',
-      component: resolve => require(['@/components/households'],resolve)
+      component: () => import('@/components/households')
     },
     {
       path: '/examine',
       name: 'examine',
-      component: resolve => require(['@/components/examine'],resolve)
+      component: () => import('@/components/examine')
     },
     {
       path: '/modeMng',
       name: 'modeList',
-      component: resolve => require(['@/components/modeList'],resolve)
+      component: () => import('@/components/modeList')
     },
     {
       path: '/creatContact',
       name: 'creatContact',
-      component: resolve => require(['@/components/creatContact'],resolve)
+      component: () => import('@/components/creatContact')
     },
     {
       path: '/showMode',
       name: 'showMode',//别名，用于隐藏传输的模板id
-      component: resolve => require(['@/components/showMode'],resolve),
+      component: () => import('@/components/showMode')
     },
     {
       path: '/contactList',
       name: 'contactList',
-      component: resolve => require(['@/components/contactList'],resolve),
+      component: () => import('@/components/contactList')
     },
     {
       path: '/creatMode',
       name: 'creatMode',
-      component: resolve => require(['@/components/creatMode'],resolve),
+      component: () => import('@/components/creatMode'),
       children :[
-        { path: '/', component: resolve => require(['@/components/writeMode'],resolve)},
+        { path: '/', component: () => import('@/components/writeMode')},
         { path: 'p1', },
       	{ path: 'p2', },
-      	{ path: 'p3',name:"p3", component: resolve => require(['@/components/writeMode'],resolve) },
-      	{ path: 'p4', component: resolve => require(['@/components/fourthPage'],resolve) },
+      	{ path: 'p3',name:"p3", component: () => import('@/components/writeMode') },
+      	{ path: 'p4', component: () => import('@/components/fourthPage') },
       	{ path: 'p5', },
       	{ path: 'p6', },
       	{ path: 'p7', },
@@ -79,12 +79,12 @@ export default new Router({
     {
       path: '/query',
       name: 'query',
-      component: resolve => require(['@/components/query'],resolve)
+      component: () => import('@/components/query')
     },
     {
       path: '/userMng',
       name: 'userMng',
-      component: resolve => require(['@/components/userMng'],resolve)
+      component: () => import('@/components/userMng')
     },
   ]
 })

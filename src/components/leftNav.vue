@@ -48,7 +48,7 @@ export default {
    * @return    {[type]}                 [description]
    */
   created:function(){
-    if (document.getElementsByTagName('body')[0].offsetWidth < 361){
+    if (document.body.offsetWidth < 361){
       this.isCollapse = true;
     }
   },

@@ -1,6 +1,7 @@
 <template>
   <div id="app" class="print">
     <div id="login" v-if="!user.name">
+      <div class="no-wrap"></div>
       <div id="main" class="main" >
         <h1>商品房网上备案系统</h1>
         <div class="wrapDiv" v-model="input_msg">
@@ -153,14 +154,14 @@ export default {
   }
    //登录页
   #login{
-      display: block;
-      background: url('/static/img/bg_App.jpg') no-repeat;//绝对路径
-      background-size: 100% 100%;  
+    background-color: #66C0B7;
+    div.no-wrap{
+      height: 25%;
+    } 
     #main {
-      border-top: 200px solid transparent;
       background: none;
+      margin-top: 0px;
       h1{
-        color: #7E4543;
         background: none;
       }
       .wrapDiv{
@@ -168,11 +169,12 @@ export default {
         border: none;
         background: none;
           .inputDiv{
-            margin: 30px auto;
+            margin: 32px auto;
             width: 100%;
             .inputBtn{
               margin-left: 10px;
               width: 62%;
+              min-width: none;
               height: @btn_height;
             }
             .loginBtn{
@@ -273,16 +275,17 @@ footer {
 }
 #login{// 登录页
   height: 100%;
+  .kong{
+    height: 15%;
+  }
   .main{
     height: 35%;
     min-height: 300px;
     padding: 10px 0;
-    background: url('/static/img/bg_PC.jpg') no-repeat;
-    background-size: 100% 100%;//以父元素的百分比来设置背景图像的宽度和高度。
-    border-top:150px solid transparent;
+    background-color: #66C0B7;
     h1{
       color: #7E4543;
-      background: url('/static/img/logo.png') no-repeat;
+      background: url(./assets/logo.png) no-repeat;
       background-size: 100% 100%;
     }
     .wrapDiv{
@@ -295,31 +298,32 @@ footer {
         -moz-border-radius: @px;
         border:1px solid @bg_color;
       }
-
-      height: 58%;
+      height: 60%;
       width: 24%;
       min-width: 360px;
       background: #fff;
       margin: 0 auto;
       .border(5px);border:10px solid rgba(118,133,194,0.25);
-
       .inputDiv{
-        margin: 20px auto;
+        margin: 27px auto;
         .inputBtn{
+          width:45%;
+          min-width: 200px;
           height: @btn_height;
           margin-left: 10px;
           .border;border-color: #bfcbd9;
         }
         .loginBtn{
-          width:76px;
+          width:90px;
           height: @btn_height + 4;
           background:@bg_color;color:#fff;
           .border;
-          margin-left:56px;
+          margin-left:59px;//值固定
         }
         .cancel{
           color:@color;
-          background:#F5F3F3;margin-left:16px;
+          background:#F5F3F3;
+          margin-left:18px;
         }
       }
     }

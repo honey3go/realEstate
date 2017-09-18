@@ -29,7 +29,7 @@
       </el-form>
     </div>
     <div v-else> 
-      <h3><img src="/static/img/dui.png">恭喜您，修改密码成功！</h3>
+      <h3><img src="../assets/dui.png">恭喜您，修改密码成功！</h3>
       <p class="indent">
         <span v-model="timer">{{timer}}</span>秒后即将跳转到登录页
       </p>
