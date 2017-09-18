@@ -1,19 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import modeList from '@/components/modeList'
-import creatMode from '@/components/creatMode'
-import writeMode from '@/components/writeMode'
-import query from '@/components/query'
-import fourthPage from '@/components/fourthPage'
-import home from '@/components/home'
-import showMode from '@/components/showMode'
-import contactList from '@/components/contactList'
-import creatContact from '@/components/creatContact'
-import userMng from '@/components/userMng'
-import examine from '@/components/examine'
-import statList from '@/components/statList'
-import developer from '@/components/developer'
-import households from '@/components/households'
 
 Vue.use(Router)
 
@@ -23,62 +9,62 @@ export default new Router({
     {
       path:'/',
       name:'home',
-      component: home
+      component: resolve => require(['@/components/home'],resolve)
     },
     {
       path:'',
-      component: home
+      component: resolve => require(['@/components/home'],resolve)
     },
     {
       path: '/statList',
       name: 'statList',
-      component: statList
+      component: resolve => require(['@/components/statList'],resolve)
     },
     {
       path: '/developer',
       name: 'developer',
-      component: developer
+      component: resolve => require(['@/components/developer'],resolve)
     },
     {
       path: '/households',
       name: 'households',
-      component: households
+      component: resolve => require(['@/components/households'],resolve)
     },
     {
       path: '/examine',
       name: 'examine',
-      component: examine
+      component: resolve => require(['@/components/examine'],resolve)
     },
     {
       path: '/modeMng',
       name: 'modeList',
-      component: modeList
+      component: resolve => require(['@/components/modeList'],resolve)
     },
     {
       path: '/creatContact',
       name: 'creatContact',
-      component: creatContact
+      component: resolve => require(['@/components/creatContact'],resolve)
     },
     {
       path: '/showMode',
       name: 'showMode',//别名，用于隐藏传输的模板id
-      component: showMode,
+      component: resolve => require(['@/components/showMode'],resolve),
     },
     {
       path: '/contactList',
       name: 'contactList',
-      component: contactList,
+      component: resolve => require(['@/components/contactList'],resolve),
     },
     {
       path: '/creatMode',
       name: 'creatMode',
-      component: creatMode,
+      component: resolve => require(['@/components/creatMode'],resolve),
       children :[
-        { path: '/', component: writeMode},
+        { path: '/', component: resolve => require(['@/components/writeMode'],resolve)},
         { path: 'p1', },
       	{ path: 'p2', },
-      	{ path: 'p3',name:"p3", component: writeMode },
-      	{ path: 'p4', component: fourthPage },
+      	{ path: 'p3',name:"p3", component: resolve => require(['@/components/writeMode'],resolve) },
+      	{ path: 'p4', component: resolve => require(['@/components/fourthPage'],resolve) },
       	{ path: 'p5', },
       	{ path: 'p6', },
       	{ path: 'p7', },
@@ -93,12 +79,12 @@ export default new Router({
     {
       path: '/query',
       name: 'query',
-      component: query
+      component: resolve => require(['@/components/query'],resolve)
     },
     {
       path: '/userMng',
       name: 'userMng',
-      component: userMng
+      component: resolve => require(['@/components/userMng'],resolve)
     },
   ]
 })
