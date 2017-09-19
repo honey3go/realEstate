@@ -110,7 +110,7 @@ export default {
                         id: `${this.selectedRows[0].id}`,
                         jsonpar: JSON.stringify({ delIndex })
               };
-              debugger
+             
           this.$http.post( url, param )
           .then(response =>{
               let { code, msg, data } = string2Obj( response.data );
@@ -143,6 +143,7 @@ export default {
      */
     editContact:function(){
       if ( cheakSelectLength.call(this,this.selectedRows) ){
+        this.changeDocStatus({methods:"creat",type:"contact"});
         //此处路由跳转使用别名，地址栏中隐藏路由参数：id:模板ID，readonly:是否只读
         this.$router.push({name: 'showMode',params:{ id: this.selectedRows[0].id,readonly:0}});
       }

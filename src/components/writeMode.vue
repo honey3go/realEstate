@@ -29,11 +29,11 @@
         <h3>邮政编码：<input :class="['ipt-active','normal']" data-estl="0">联系电话：<input :class="['ipt-active','normal']" data-estl="0"></h3>
       </div> 
       <div class="prt-btn noprint">
-        <div v-if="docData.type!=='examine'">
+        <div v-if="docData.type!=='examine'" >
           <el-button type="primary" icon="document" title="预览/打印" class="norad" @click="printPage">&nbsp</el-button>
           <span>◆</span>
         </div>
-        <div v-if="docData.type!=='examine'">
+        <div v-if="docData.type!=='examine'&&docData.methods!=='readonly'">
           <el-button type="success" icon="upload2" title="保存" class="norad" @click="savePage">&nbsp</el-button>
           <span>◆</span>
         </div>
@@ -102,26 +102,26 @@ export default {
       } 
 
       let url,param;
-      
+
       if ( this.isUpdate ){
         this.updateTime = new Date().toLocaleDateString().replace(/\//g,"-");
-            url = `${systemParam.serviceAddress}${systemParam.updateMode}`,
-            param = { 
-              id: `${this.$route.params.id}`,
-              jsonpar: JSON.stringify(this.modeUpdateData)
-            };
+          url = `${systemParam.serviceAddress}${systemParam.updateMode}`,
+          param = { 
+            id: `${this.$route.params.id}`,
+            jsonpar: JSON.stringify(this.modeUpdateData)
+          };
       } else {
-            url = `${systemParam.serviceAddress}${systemParam.postMode}`,
-            param = { 
-              developers: `${this.$store.state.user}`,
-              jsonpar: JSON.stringify(this.modeMsgAuto)
-            };
+           url = `${systemParam.serviceAddress}${systemParam.postMode}`,
+           param = { 
+            developers: `${this.user.name}`,
+            jsonpar: JSON.stringify(this.modeMsgAuto)
+          };
       };
 
       this.$http.post( url, param )
-        .then(response =>{
+        .then(response => {
             let { code, msg, data } = string2Obj( response.data );
-
+            console.log(response.data)
             if ( code === "200" ){
               this.$alert('保存成功！', '消息', {
               confirmButtonText: '确定',
@@ -207,7 +207,7 @@ export default {
   },
   computed:{
     ...mapState([
-      'docData'
+      'docData','user'
     ]),
     ...mapGetters([
       'finalPatten'
@@ -215,12 +215,12 @@ export default {
     modeMsgAuto: function(){
       let { modeName, more, date, name } = this.modeMsg,
           page = 1;
-      return { modeName, more, date, name,  page, lastEditDate:date, lastEditName:name, user:this.$store.state.user};
+      return { modeName, more, date, name,  page, lastEditDate:date, lastEditName:name, user:this.user.name};
     },
     modeUpdateData:function(){
       let { modeName, more, date, name } = this.modeMsg,
           page = 1;
-      return { modeName, more, date, name, page, lastEditDate:this.updateTime, lastEditName:name, user:this.$store.state.user};
+      return { modeName, more, date, name, page, lastEditDate:this.updateTime, lastEditName:name, user:this.user.name};
     },
   },
 }

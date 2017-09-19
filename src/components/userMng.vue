@@ -11,14 +11,14 @@
         <h4>当前登录用户为：&nbsp;&nbsp;{{user.name}}</h4>
         <h4>最近一次登录时间：&nbsp;&nbsp;{{ user.logTime }}&nbsp;&nbsp;&nbsp;&nbsp;</h4>
       </div>
-    <div class="inputForm" id="inputForm1" v-if="active== 0">
+    <div class="inputForm"  v-if="active== 0">
       <el-form :model="ruleForm1" :rules="rules" ref="ruleForm1" label-width="100px">
         <el-form-item label="密码" prop="pass">
           <el-input type="password" v-model="ruleForm1.pass" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
     </div>
-    <div class="inputForm" id="inputForm2" v-else-if="active== 1">
+    <div class="inputForm" v-else-if="active== 1">
       <el-form  :model="ruleForm2" :rules="rules" ref="ruleForm2" label-width="100px">
         <el-form-item label="新密码" prop="newPass">
           <el-input type="password" v-model="ruleForm2.newPass" auto-complete="off"></el-input>

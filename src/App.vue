@@ -187,11 +187,9 @@ export default {
     }
   }//login
   #userMng {
-    #inputForm1{
+    div.inputForm{
       width: 95%;
-    }
-    #inputForm2{
-      width: 95%;
+      padding-right: 0px;
     }
     .indent{
       text-indent: 4em;
@@ -275,7 +273,7 @@ footer {
 }
 #login{// 登录页
   height: 100%;
-  .kong{
+  .no-wrap{
     height: 15%;
   }
   .main{
