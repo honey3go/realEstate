@@ -2,7 +2,7 @@
   <div class="write print">
     <div class="write-wrap print">
       <div class="write-edge">
-        <h3>模板名称：<input name="modeName" v-model="modeMsg.modeName" :class="[{'ipt-active':modeMsg.modeName},'spec-ipt','longer']" data-estl="1"></h3>
+        <h3>模板名称：<input  name="modeName" v-model="modeMsg.modeName" :class="[{'ipt-active':modeMsg.modeName},'spec-ipt','longer']" data-estl="1"></h3>
         <h3>制作人：<input name="name" v-model="modeMsg.name" :class="[{'ipt-active':modeMsg.name},'spec-ipt']" data-estl="1">制作时间：<input type="date" name="date" v-model="modeMsg.date" :class="[{'ipt-active':modeMsg.date},'spec-ipt']" data-estl="1"></h3>
         <h3>备注：<input name="more" v-model="modeMsg.more" :class="[{'ipt-active':modeMsg.more},'spec-ipt','longer']" data-estl="0"></h3>
         <h1 class="title">房&nbsp;屋&nbsp;商&nbsp;品&nbsp;买&nbsp;卖&nbsp;合&nbsp;同</h1>

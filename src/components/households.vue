@@ -192,7 +192,8 @@ export default {
       const status = data.map((value) => value.status),//抽出当前表格中显示的所有状态数据存为数组
             sums = [];
        
-      columns.forEach(( colume, index ) => {
+      columns.forEach(( column, index ) => {
+        
         switch ( index ){
           case 0 ://首列显示"合计"
             sums[index] = '合计';
@@ -210,8 +211,9 @@ export default {
 
               finalMap.set( val, currentCount );
             }
+            console.log(finalMap)
             //类型转换：Map->Array->String
-            sums[index] = Array.from( finalMap ).join(' ').replace( /,/g, ':');
+            sums[index] = [...finalMap].join(' ').replace( /,/g, ':');
             break;
           default://其他列默认显示"/"
             sums[index] = '/';
