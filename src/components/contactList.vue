@@ -171,6 +171,7 @@ export default {
      * @DateTime  2017-09-04T16:42:10+0800
      */
     viewContact: function(){
+      debugger
      if ( cheakSelectLength.call(this,this.selectedRows) ){
         this.changeDocStatus({methods:"readonly",type:"contact"});
         this.$router.push({name: 'showMode',params:{ id: 44}});

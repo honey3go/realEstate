@@ -124,12 +124,12 @@ export default {
      * @param     {boolean}                expanded [是否展开]
      */
     showPic: function(row,expanded){
+      console.log('hhh')
       if ( !this.houseData.hasOwnProperty(row.NUM) ){
 
         this.$http.get(`${systemParam.serviceAddress}/${systemParam.getHouse}${row.NUM}`)
           .then(response => {
             let responseObj = string2Obj(response.data);
-            console.log("house")
 
             if ( responseObj!==null ){
               let { code, msg, data } = responseObj;
@@ -209,6 +209,10 @@ export default {
         console.log(response)
       });
   },
+  destroyed(){
+
+    this.houseData = null;
+  }
 }
 </script>
 

@@ -63,7 +63,7 @@ export default {
     };
   },
   components:{
-    leftNav
+    leftNav,
   },
   methods:{
     /**
@@ -142,7 +142,7 @@ export default {
     display: none;
   }
 }
-@media screen and (max-width: 360px) {//媒体查询，宽360的手机
+@media screen and (max-width: 375px) {//媒体查询，宽375的手机
   #left-warp{
     width: 64px;
   }
